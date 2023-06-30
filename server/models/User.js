@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 
+//! get status to link to status array for users
+
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -18,7 +20,13 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  status: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Status"
+    }
+  ],
 });
 
 const User = model("User", userSchema)
