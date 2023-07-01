@@ -9,7 +9,7 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(routes)
-app.use(cors)
+app.use(cors())
 
 db.once("open", () => {
   app.listen(PORT, () => {
