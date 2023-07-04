@@ -3,15 +3,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -26,21 +24,59 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+interface userFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const [userFormData, setUserFormData] = React.useState<userFormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  })
+
+  const navigate = useNavigate();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserFormData({ ...userFormData, [name]: value });
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    try {
+      const response = await fetch('/api/user/createUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userFormData),
+      });
+
+      const data = await response.json();
+
+      localStorage.setItem("id", data._id)
+
+      navigate("/")
+
+      if (!response.ok) {
+        throw new Error('Error occurred during form submission');
+      }
+
+      // Handle successful form submission
+      console.log('Form submitted successfully');
+    } catch (error) {
+      // Handle error during form submission
+      console.error(error);
+    }
+  }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -63,6 +99,8 @@ export default function SignUp() {
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
+                  value={userFormData.firstName}
+                  onChange={handleInputChange}
                   required
                   fullWidth
                   id="firstName"
@@ -74,9 +112,10 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
                   label="Last Name"
                   name="lastName"
+                  value={userFormData.lastName}
+                  onChange={handleInputChange}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -84,9 +123,10 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
                   label="Email Address"
                   name="email"
+                  value={userFormData.email}
+                  onChange={handleInputChange}
                   autoComplete="email"
                 />
               </Grid>
@@ -97,7 +137,8 @@ export default function SignUp() {
                   name="password"
                   label="Password"
                   type="password"
-                  id="password"
+                  value={userFormData.password}
+                  onChange={handleInputChange}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -110,7 +151,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link href="/login" variant="body2">
                   Already have an account? Sign in
@@ -121,6 +162,5 @@ export default function SignUp() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
   );
 }

@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,12 +12,9 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Navigate } from "../../../node_modules/react-router-dom/dist/index";
 
-const signInProps = {
-  email: String,
-  password: String
-}
+
 
 function Copyright(props: any) {
   return (
@@ -31,21 +29,57 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+// outline user form data
+interface userFormData {
+  email: string;
+  password: string;
+}
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const [userFormData, setUserFormData] = useState<userFormData>({
+    email: '',
+    password: '',
+  })
+
+  const navigate = useNavigate();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserFormData({ ...userFormData, [name]: value });
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    try {
+      const response = await fetch('/api/user/loginUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userFormData),
+      });
+
+      const data = await response.json()
+
+      localStorage.setItem("id", data._id)
+
+      console.log(data)
+
+      navigate("/")
+
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+
+      console.log(userFormData)
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -67,9 +101,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
               label="Email Address"
               name="email"
+              value={userFormData.email}
+              onChange={handleInputChange}
               autoComplete="email"
               autoFocus
             />
@@ -80,12 +115,9 @@ export default function SignIn() {
               name="password"
               label="Password"
               type="password"
-              id="password"
+              value={userFormData.password}
+              onChange={handleInputChange}
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
             <Button
               type="submit"
@@ -95,7 +127,7 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <Grid container>
+            <Grid container justifyContent="center">
                 <Link href="/signUp" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
@@ -104,6 +136,5 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
   );
 }

@@ -27,6 +27,7 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Chaos
           </Typography>
+          <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
           <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
         </Toolbar>
       </AppBar>
