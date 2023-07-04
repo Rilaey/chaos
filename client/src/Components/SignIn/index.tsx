@@ -61,9 +61,6 @@ export default function SignIn() {
       });
 
       const data = await response.json()
-
-      localStorage.setItem("id", data._id)
-
       console.log(data)
 
       navigate("/home")

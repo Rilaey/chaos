@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 export default function HeaderNav() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ export default function HeaderNav() {
               </Button>
             </>
           ) : (
-            <Button color="inherit" onClick={() => navigate("/login")}>
+            <Button color="inherit" onClick={() => navigate("/")}>
               Login
             </Button>
           )}

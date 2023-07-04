@@ -59,14 +59,11 @@ export default function SignUp() {
       });
 
       const data = await response.json();
+      console.log(data)
 
       localStorage.setItem("id", data._id)
 
-      navigate("/")
-
-      if (!response.ok) {
-        throw new Error('Error occurred during form submission');
-      }
+      navigate("/home")
 
       // Handle successful form submission
       console.log('Form submitted successfully');
