@@ -9,8 +9,10 @@ const statusSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-}, {
-  timestamps: true
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 const Status = model('Status', statusSchema)

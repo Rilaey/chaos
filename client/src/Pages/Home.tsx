@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CreateStatusCard from "../Components/CreateStatusCard/CreateStatusCard";
 import FeedCard from "../Components/Feed/Feed";
 import { User } from "../models/User"
@@ -7,10 +7,12 @@ interface FeedCardProps {
   _id: string;
   message: string;
   createdBy: User;
+  createdAt: string;
 }
 
 export default function Home() {
   const [callFeed, setFeedCard] = useState<FeedCardProps[]>([])
+
 
   useEffect(() => {
     const callFeed = async () => {
@@ -53,6 +55,7 @@ export default function Home() {
             _id={item._id}
             message={item.message}
             createdBy={item.createdBy}
+            createdAt={item.createdAt}
             />
           )
         })}
