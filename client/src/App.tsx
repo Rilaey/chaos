@@ -1,6 +1,6 @@
 import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HeaderNav from "./Components/HeaderNav/index";
+import HeaderNav from "./Components/HeaderNav/HeaderNav";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
@@ -21,8 +21,8 @@ function App() {
         <CssBaseline />
         <HeaderNav />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
         </Routes>
       </ThemeProvider>

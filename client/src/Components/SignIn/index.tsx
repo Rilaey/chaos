@@ -66,7 +66,7 @@ export default function SignIn() {
 
       console.log(data)
 
-      navigate("/")
+      navigate("/home")
 
       if (!response.ok) {
         throw new Error('something went wrong!');

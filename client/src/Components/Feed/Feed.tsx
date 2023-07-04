@@ -1,52 +1,40 @@
-import React, { useEffect, useState } from "react";
-import TextField from "@mui/material/TextField";
 import { Container, Box, Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import { User } from "../../models/User";
 
 interface FeedCardProps {
   _id: string;
   message: string;
-  createdBy: string | number;
+  createdBy: User;
 }
 
-const Feed = () => {
-  const [feedCard, setFeedCard] = useState<FeedCardProps[]>([]);
-
-  useEffect(() => {
-    const callFeed = async () => {
-      const response = await fetch("/api/status/allStatus");
-
-      const data = await response.json();
-
-      console.log(data);
-
-      setFeedCard(data);
-    };
-
-    callFeed();
-  }, []);
-
+const Feed = ({ _id, message, createdBy }: FeedCardProps) => {
   return (
-    <div>
-      {feedCard.map((item) => {
-        return (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "flex-start",
-              margin: "10px",
-              border: "2px solid red"
-            }}
-            key={item._id}
-          >
-            <Typography>{item.message}</Typography>
-            <Typography variant="h2">{item.createdBy.email}</Typography>
-          </div>
-        );
-      })}
-    </div>
+    <Container>
+      <CssBaseline />
+      <Box key={_id} sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        width: "100%",
+        flexWrap: "wrap",
+        height: "100%",
+        backgroundColor: "#2F2F31",
+        border: "2px solid black",
+        margin: "10px",
+        padding: "10px"
+      }}>
+        <Typography sx={{
+          fontSize: "1.5rem",
+          margin: "5px",
+          color: "white",
+        }}>{message}</Typography>
+        <Typography variant="h6" sx={{
+          margin: "5px"
+        }}>{createdBy.firstName} {createdBy.lastName}</Typography>
+      </Box>
+    </Container>
   );
 };
 
