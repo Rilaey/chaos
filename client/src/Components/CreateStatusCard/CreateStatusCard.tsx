@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Container, Box, Button } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -8,7 +8,7 @@ interface StatusFormState {
   createdBy: unknown;
 }
 
-const index: React.FC = () => {
+const CreateStatusCard = () => {
   const [statusForm, setStatusForm] = useState<StatusFormState>({
     message: "",
     createdBy: localStorage.getItem("id")
@@ -36,7 +36,12 @@ const index: React.FC = () => {
 
       const data = await response.json()
 
-      console.log(data);
+      console.log(data)
+
+      setStatusForm({
+        message: "",
+        createdBy: localStorage.getItem("id")
+      })
     } catch (err) {
       console.log(err);
     }
@@ -72,4 +77,4 @@ const index: React.FC = () => {
   );
 };
 
-export default index;
+export default CreateStatusCard;
