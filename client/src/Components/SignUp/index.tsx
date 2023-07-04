@@ -58,6 +58,10 @@ export default function SignUp() {
         body: JSON.stringify(userFormData),
       });
 
+      const data = await response.json();
+
+      localStorage.setItem("id", data._id)
+
       navigate("/")
 
       if (!response.ok) {

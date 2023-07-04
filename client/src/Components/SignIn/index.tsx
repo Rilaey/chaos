@@ -60,6 +60,12 @@ export default function SignIn() {
         body: JSON.stringify(userFormData),
       });
 
+      const data = await response.json()
+
+      localStorage.setItem("id", data._id)
+
+      console.log(data)
+
       navigate("/")
 
       if (!response.ok) {

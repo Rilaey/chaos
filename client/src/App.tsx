@@ -1,3 +1,4 @@
+import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HeaderNav from "./Components/HeaderNav/index";
 import Home from "./Pages/Home";
@@ -13,6 +14,7 @@ const darkTheme = createTheme({
 });
 
 function App() {
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>

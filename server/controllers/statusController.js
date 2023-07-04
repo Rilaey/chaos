@@ -1,9 +1,9 @@
-const { Status } = require("../models");
+const { User, Status } = require("../models");
 
 // get all status
 const getAllStatus = async (req, res) => {
   try {
-    const status = await Status.find();
+    const status = await Status.find().populate("createdBy").sort({createdAt: "desc"});
 
     res.status(200).json(status);
   } catch (err) {
@@ -32,6 +32,15 @@ const createStatus = async (req, res) => {
       createdBy: req.body.createdBy
     });
 
+    // Find the user associated with the createdBy value
+    const user = await User.findById(req.body.createdBy);
+
+    // Append the new status to the user's array of statuses
+    user.status.push(status);
+
+    // Save the updated user
+    await user.save();
+
     res.status(200).json(status);
   } catch (err) {
     console.log(`Error: ${err}`);
@@ -39,4 +48,4 @@ const createStatus = async (req, res) => {
   }
 };
 
-module.exports = { getAllStatus, getStatusById, createStatus }
+module.exports = { getAllStatus, getStatusById, createStatus };
