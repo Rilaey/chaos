@@ -61,9 +61,9 @@ export default function SignUp() {
     e.preventDefault();
 
     await signUp(
-      userFormData.email,
       userFormData.firstName,
       userFormData.lastName,
+      userFormData.email,
       userFormData.password
     );
   };
