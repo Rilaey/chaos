@@ -1,4 +1,10 @@
+require('dotenv').config()
 const { User } = require("../models");
+const jwt = require("jsonwebtoken");
+
+const createToken = (_id) => {
+  return jwt.sign({_id}, process.env.SECRET, {expiresIn: "1d"})
+}
 
 // find all users
 const getAllUsers = async (req, res) => {
@@ -34,7 +40,10 @@ const createUser = async (req, res) => {
       password: req.body.password
     });
 
-    res.status(200).json(user);
+    // crete token
+    const token = createToken(user._id)
+
+    res.status(200).json({ user, token });
   } catch (err) {
     console.log(`Error: ${err}`);
     res.status(500).json(err);
@@ -43,13 +52,14 @@ const createUser = async (req, res) => {
 
 // login user
 const loginUser = async (req, res) => {
-  try {
-    const user = await User.findOne({
-      email: req.body.email,
-      password: req.body.password
-    });
+  const { email, password } = req.body
 
-    res.status(200).json(user);
+  try {
+    const user = await User.login(email, password)
+
+    const token = createToken(user._id)
+
+    res.status(200).json({ user, token });
   } catch (err) {
     console.log(`Error: ${err}`);
     res.status(500).json(err);

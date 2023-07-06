@@ -1,5 +1,4 @@
-import React from 'react'
-import SignUpForm from "../Components/SignUp/index"
+import SignUpForm from "../Components/SignUp/SignUp"
 
 export default function SignUp() {
   return (
