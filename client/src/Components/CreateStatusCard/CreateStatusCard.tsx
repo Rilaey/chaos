@@ -2,17 +2,25 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Container, Box, Button } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import { useStatus } from "../../hooks/useStatus";
 
 interface StatusFormState {
   message: string;
   createdBy: unknown;
 }
 
+// grab user _id from local storage to create status
+const userJson = localStorage.getItem("user")
+const toJson = JSON.parse(userJson)
+const statusCreator = toJson.user._id
+
 const CreateStatusCard = () => {
   const [statusForm, setStatusForm] = useState<StatusFormState>({
     message: "",
-    createdBy: localStorage.getItem("id")
+    createdBy: statusCreator
   });
+
+  const { createStatus, error, isLoading } = useStatus();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -25,26 +33,7 @@ const CreateStatusCard = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch('/api/status/createStatus', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(statusForm),
-      });
-
-      const data = await response.json()
-
-      console.log(data)
-
-      setStatusForm({
-        message: "",
-        createdBy: localStorage.getItem("id")
-      })
-    } catch (err) {
-      console.log(err);
-    }
+    await createStatus(statusForm.message, statusForm.createdBy);
   };
 
   return (
@@ -60,6 +49,7 @@ const CreateStatusCard = () => {
         component="form"
         onSubmit={handleSubmit}
       >
+        {error && <div>{error}</div>}
         <TextField
           sx={{ margin: "5px" }}
           type="text"
@@ -69,7 +59,12 @@ const CreateStatusCard = () => {
           value={statusForm.message}
           onChange={handleChange}
         />
-        <Button sx={{ margin: "5px" }} variant="contained" type="submit">
+        <Button
+          sx={{ margin: "5px" }}
+          variant="contained"
+          type="submit"
+          disabled={isLoading}
+        >
           Post
         </Button>
       </Box>
