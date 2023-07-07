@@ -45,14 +45,13 @@ const createUser = async (req, res) => {
 
     res.status(200).json({ user, token });
   } catch (err) {
-    console.log(`Error: ${err}`);
     res.status(500).json(err);
   }
 };
 
 // login user
 const loginUser = async (req, res) => {
-  const { email, password } = req.body
+  const { email, password } = req.body;
 
   try {
     const user = await User.login(email, password)
@@ -61,8 +60,8 @@ const loginUser = async (req, res) => {
 
     res.status(200).json({ user, token });
   } catch (err) {
-    console.log(`Error: ${err}`);
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err}`);
+    console.log(err)
   }
 };
 

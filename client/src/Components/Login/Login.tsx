@@ -35,13 +35,13 @@ interface userFormData {
   password: string;
 }
 
-export default function SignIn() {
+export default function Login() {
+  const { login, error, isLoading } = useLogin();
+
   const [userFormData, setUserFormData] = useState<userFormData>({
     email: "",
     password: ""
   });
-
-  const { login, error, isLoading } = useLogin();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,6 +52,11 @@ export default function SignIn() {
     e.preventDefault();
 
     await login(userFormData.email, userFormData.password);
+
+    setUserFormData({
+      email: "",
+      password: ""
+    });
   };
 
   return (
@@ -70,6 +75,20 @@ export default function SignIn() {
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
+          {/* WHY THE FUCK DOES ERROR HANDLING NOT WORK */}
+          {error && (
+              <div
+                style={{
+                  color: "red",
+                  padding: "10px",
+                  border: "1px solid red",
+                  borderRadius: "4px",
+                  margin: "20px 0",
+                  background: "#ffefef"
+                }}
+              >
+                {error}
+              </div>)}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
