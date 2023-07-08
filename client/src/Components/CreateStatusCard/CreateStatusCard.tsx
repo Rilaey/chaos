@@ -10,14 +10,18 @@ interface StatusFormState {
 }
 
 // grab user _id from local storage to create status
-const userJson = localStorage.getItem("user")
-const toJson = JSON.parse(userJson)
-const statusCreator = toJson.user._id
+const getUserId = () => {
+  const userJson = localStorage.getItem("user");
+  const toJson = JSON.parse(userJson);
+  const statusCreator = toJson.user._id;
+
+  return statusCreator;
+};
 
 const CreateStatusCard = () => {
   const [statusForm, setStatusForm] = useState<StatusFormState>({
     message: "",
-    createdBy: statusCreator
+    createdBy: getUserId()
   });
 
   const { createStatus, error, isLoading } = useStatus();
@@ -34,6 +38,11 @@ const CreateStatusCard = () => {
     e.preventDefault();
 
     await createStatus(statusForm.message, statusForm.createdBy);
+
+    setStatusForm({
+      message: "",
+      createdBy: getUserId()
+    })
   };
 
   return (
