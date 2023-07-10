@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CreateStatusCard from "../Components/CreateStatusCard/CreateStatusCard";
-import FeedCard from "../Components/Feed/Feed";
+import FeedCard from "../Components/StatusCard/StatusCard";
 import { User } from "../models/User";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -16,26 +16,26 @@ export default function Home() {
 
   const { user } = useAuthContext();
 
+  const fetchFeed = useCallback(async () => {
+    const response = await fetch("/api/status/allStatus", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${user.user.token}`
+      }
+    });
+
+    const data = await response.json();
+
+    setFeedCard(data);
+  }, [user])
+
   useEffect(() => {
-    const callFeed = async () => {
-      const response = await fetch("/api/status/allStatus", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${user.user.token}`
-        }
-      });
-
-      const data = await response.json();
-
-      setFeedCard(data);
-    };
-
     if (user) {
-      callFeed();
+      fetchFeed();
     } else {
       setFeedCard([]);
     }
-  });
+  }, [user, callFeed, fetchFeed]);
 
   return (
     <div
@@ -47,7 +47,7 @@ export default function Home() {
       }}
     >
       <div>
-        <CreateStatusCard />
+        <CreateStatusCard onSubmit={fetchFeed} />
       </div>
       <div
         style={{
