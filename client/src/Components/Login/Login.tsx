@@ -77,18 +77,19 @@ export default function Login() {
           Sign in
           {/* WHY THE FUCK DOES ERROR HANDLING NOT WORK */}
           {error && (
-              <div
-                style={{
-                  color: "red",
-                  padding: "10px",
-                  border: "1px solid red",
-                  borderRadius: "4px",
-                  margin: "20px 0",
-                  background: "#ffefef"
-                }}
-              >
-                {error}
-              </div>)}
+            <div
+              style={{
+                color: "red",
+                padding: "10px",
+                border: "1px solid red",
+                borderRadius: "4px",
+                margin: "20px 0",
+                background: "#ffefef"
+              }}
+            >
+              {error}
+            </div>
+          )}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -118,7 +119,7 @@ export default function Login() {
             fullWidth
             variant="contained"
             disabled={isLoading}
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, backgroundColor: "#1E1E1E", color: "red" }}
           >
             Sign In
           </Button>

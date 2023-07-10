@@ -2,14 +2,20 @@ import { Container, Box, Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { User } from "../../models/User";
 
-interface FeedCardProps {
+export interface StatusCardProps {
   _id: string;
   message: string;
   createdBy: User;
   createdAt: string;
 }
 
-const Feed = ({ _id, message, createdBy, createdAt }: FeedCardProps) => {
+const SingleStatusCard = ({
+  _id,
+  message,
+  createdBy,
+  createdAt
+}: StatusCardProps) => {
+
   return (
     <Container>
       <CssBaseline />
@@ -27,42 +33,58 @@ const Feed = ({ _id, message, createdBy, createdAt }: FeedCardProps) => {
           border: "2px solid black",
           margin: "10px",
           padding: "10px",
-          borderRadius: "20px"
+          borderRadius: "20px",
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)"
         }}
       >
-        <Typography
+        <Box
           sx={{
-            fontSize: "1.5rem",
-            margin: "5px",
-            color: "white"
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between"
           }}
         >
-          {message}
-        </Typography>
-        <div style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
-        }}>
           <Typography
             sx={{
-              margin: "5px"
+              fontSize: "1.5rem",
+              margin: "5px",
+              color: "white"
+            }}
+          >
+            {message}
+          </Typography>
+        </Box>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+            textDecoration: "none"
+          }}
+        >
+          <Typography
+            sx={{
+              margin: "5px",
+              textDecoration: "none",
+              color: "#fff"
             }}
           >
             {createdBy.firstName} {createdBy.lastName}
           </Typography>
           <Typography
             sx={{
-              margin: "5px"
+              margin: "5px",
+              textDecoration: "none",
+              color: "#fff"
             }}
           >
             {createdAt}
           </Typography>
-          </div>
+        </div>
       </Box>
     </Container>
   );
 };
 
-export default Feed;
+export default SingleStatusCard;

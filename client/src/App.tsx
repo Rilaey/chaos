@@ -1,9 +1,9 @@
-import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HeaderNav from "./Components/HeaderNav/HeaderNav";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
+import Status from "./Pages/Status";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -24,6 +24,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
+          <Route path="/status/:id" element={<Status />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

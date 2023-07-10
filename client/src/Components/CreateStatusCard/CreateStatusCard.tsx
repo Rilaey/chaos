@@ -2,23 +2,27 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Container, Box, Button } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useStatus } from "../../hooks/useStatus";
+import { useStatus } from "../../hooks/useCreateStatus";
 
 interface StatusFormState {
   message: string;
   createdBy: unknown;
 }
 
+interface CreateStatusCardProps {
+  onSubmit: () => Promise<void>;
+}
+
 // grab user _id from local storage to create status
-const getUserId = () => {
-  const userJson = localStorage.getItem("user");
-  const toJson = JSON.parse(userJson);
-  const statusCreator = toJson.user._id;
+const getUserId = (): string => {
+  const userJson: string | null = localStorage.getItem("user");
+  const toJson: { user: { _id: string } } = JSON.parse(userJson as string);
+  const statusCreator: string = toJson.user._id;
 
   return statusCreator;
 };
 
-const CreateStatusCard = () => {
+const CreateStatusCard = ({ onSubmit }: CreateStatusCardProps) => {
   const [statusForm, setStatusForm] = useState<StatusFormState>({
     message: "",
     createdBy: getUserId()
@@ -39,10 +43,12 @@ const CreateStatusCard = () => {
 
     await createStatus(statusForm.message, statusForm.createdBy);
 
+    await onSubmit();
+
     setStatusForm({
       message: "",
       createdBy: getUserId()
-    })
+    });
   };
 
   return (
@@ -69,7 +75,7 @@ const CreateStatusCard = () => {
           onChange={handleChange}
         />
         <Button
-          sx={{ margin: "5px" }}
+          sx={{ margin: "5px", backgroundColor: "#1E1E1E", color: "red" }}
           variant="contained"
           type="submit"
           disabled={isLoading}
