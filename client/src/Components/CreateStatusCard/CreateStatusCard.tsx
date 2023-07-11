@@ -56,10 +56,10 @@ const CreateStatusCard = ({ onSubmit }: CreateStatusCardProps) => {
       <CssBaseline />
       <Box
         sx={{
-          // border: "2px solid red",
+          border: "2px solid red",
           display: "flex",
           justifyContent: "center",
-          margin: "10px"
+          margin: "10px",
         }}
         component="form"
         onSubmit={handleSubmit}

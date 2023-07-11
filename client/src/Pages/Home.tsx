@@ -1,41 +1,34 @@
 import { useCallback, useEffect, useState } from "react";
 import CreateStatusCard from "../Components/CreateStatusCard/CreateStatusCard";
-import FeedCard from "../Components/StatusCard/StatusCard";
+import StatusCard from "../Components/StatusCard/StatusCard";
 import { User } from "../models/User";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { Like } from "../models/Like"
 
 interface FeedCardProps {
   _id: string;
   message: string;
   createdBy: User;
+  likes: Like[];
   createdAt: string;
 }
 
 export default function Home() {
   const [callFeed, setFeedCard] = useState<FeedCardProps[]>([]);
 
-  const { user } = useAuthContext();
-
   const fetchFeed = useCallback(async () => {
     const response = await fetch("/api/status/allStatus", {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${user.user.token}`
-      }
     });
 
     const data = await response.json();
+    // console.log(data)
 
     setFeedCard(data);
-  }, [user])
+  }, [])
 
   useEffect(() => {
-    if (user) {
       fetchFeed();
-    } else {
-      setFeedCard([]);
-    }
-  }, [user, callFeed, fetchFeed]);
+  }, [fetchFeed]);
 
   return (
     <div
@@ -43,10 +36,12 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
-      <div>
+      <div style={{
+        width: "100%",
+      }}>
         <CreateStatusCard onSubmit={fetchFeed} />
       </div>
       <div
@@ -61,11 +56,12 @@ export default function Home() {
       >
         {callFeed.map((item) => {
           return (
-            <FeedCard
+            <StatusCard
               key={item._id}
               _id={item._id}
               message={item.message}
               createdBy={item.createdBy}
+              likes={item.likes}
               createdAt={item.createdAt}
             />
           );

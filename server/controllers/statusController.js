@@ -49,13 +49,24 @@ const createStatus = async (req, res) => {
 };
 
 // like status
-//! finish after page for status is completed
 const likeStatus = async (req, res) => {
   try {
-    const likedStatus = await Status.findByIdAndUpdate(req.params._id)
-  } catch (err) {
-    res.status(500).json(err)
-  }
-}
+    const status = await Status.findByIdAndUpdate(
+      req.params.id,
+      { $push: { likes: req.body.userId } }, // Assuming req.body.userId contains the user ID
+      { new: true } // To return the updated status instead of the original one
+    );
 
-module.exports = { getAllStatus, getStatusById, createStatus };
+    // Update the user if necessary
+    const user = await User.findByIdAndUpdate(
+      req.body.userId, // Assuming req.body.userId contains the user ID
+      { $push: { likedStatuses: req.params.id } } // Assuming you want to associate the liked status with the user
+    );
+
+    res.status(200).json({ status, user });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+module.exports = { getAllStatus, getStatusById, createStatus, likeStatus };

@@ -1,12 +1,14 @@
 import { Container, Box, Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { User } from "../../models/User";
+import { Like } from "../../models/Like"
 
 export interface StatusCardProps {
   _id: string;
   message: string;
   createdBy: User;
   createdAt: string;
+  likes: Like[]
 }
 
 const SingleStatusCard = ({

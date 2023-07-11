@@ -1,29 +1,55 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import SingleStatusCard from "../Components/SingleStatusCard/SingleStatusCard";
 import { useParams } from "react-router-dom";
 import { StatusCardProps } from "../Components/SingleStatusCard/SingleStatusCard";
 import AddCommentButton from "../Components/AddCommentButton/AddCommentButton";
 import AddLike from "../Components/AddLike/AddLike";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Container, Box, Typography } from "@mui/material";
-// import { useAuthContext } from "../hooks/useAuthContext";
+import { Box } from "@mui/material";
+
+const getUserId = (): string => {
+  const userJson: string | null = localStorage.getItem("user");
+  const toJson: { user: { _id: string } } = JSON.parse(userJson as string);
+  const statusCreator: string = toJson.user._id;
+
+  return statusCreator;
+};
+
 
 const Status = () => {
-  const [statusInformation, setStatusInformation] = useState<StatusCardProps | undefined>();
+  const [statusInformation, setStatusInformation] = useState<
+    StatusCardProps | undefined
+  >();
 
   const { id } = useParams<{ id: string }>();
+  // console.log(id)
+
+  const updateStatus = useCallback(async () => {
+    await fetch(`/api/status/likeStatus/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: getUserId()
+      })
+    });
+
+    console.log(statusInformation)
+
+  }, [id, statusInformation])
 
   useEffect(() => {
     const getOneStatus = async () => {
       const response = await fetch(`/api/status/singleStatus/${id}`);
 
       const data = await response.json();
+      // console.log(data);
 
       setStatusInformation(data);
     };
 
     getOneStatus();
-  }, [id]);
+  }, [id, updateStatus]);
 
   return (
     <Box
@@ -36,14 +62,15 @@ const Status = () => {
       }}
     >
       <Box>
-        { typeof statusInformation !== "undefined"  &&
+        {typeof statusInformation !== "undefined" && (
           <SingleStatusCard
             _id={statusInformation._id}
             message={statusInformation.message}
             createdBy={statusInformation.createdBy}
             createdAt={statusInformation.createdAt}
+            likes={statusInformation.likes}
           />
-        }
+        )}
       </Box>
       <Box
         sx={{
@@ -54,7 +81,12 @@ const Status = () => {
         }}
       >
         <AddCommentButton />
-        <AddLike />
+        {typeof statusInformation !== "undefined" && (
+          <AddLike
+            likes={statusInformation.likes}
+            likeStatus={updateStatus}
+          />
+        )}
       </Box>
     </Box>
   );
