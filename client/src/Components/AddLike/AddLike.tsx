@@ -1,16 +1,35 @@
-import { Box, Button } from "@mui/material";
-import { GrLike } from "react-icons/gr";
+import { Box, Button, Typography } from "@mui/material";
+import { Like } from "../../models/Like";
 
-const AddLike = () => {
-  return (
-    <Button variant="contained" sx={{
-        backgroundColor: "#1E1E1E",
-        color: "red",
-        width: "100%",
-    }}>
-     Like
-    </Button>
-  )
+interface AddLikeProps {
+  likes: Like[];
+  likeStatus: () => void;
 }
 
-export default AddLike
+const AddLike = ({ likes, likeStatus }: AddLikeProps) => {
+  return (
+    <Box
+      sx={{
+        width: "100%"
+      }}
+    >
+      <Button
+        variant="contained"
+        onClick={likeStatus}
+        sx={{
+          backgroundColor: "#1E1E1E",
+          color: "red",
+          width: "100%"
+        }}
+      >
+        {likes.length == 1 ?
+        <Typography>{likes.length} Like</Typography>
+        :
+        <Typography>{likes.length} Likes</Typography>
+      }
+      </Button>
+    </Box>
+  );
+};
+
+export default AddLike;
