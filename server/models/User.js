@@ -21,6 +21,12 @@ const userSchema = new Schema(
       type: String,
       required: true
     },
+    statusComments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment"
+      }
+    ],
     status: [
       {
         type: Schema.Types.ObjectId,
