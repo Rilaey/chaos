@@ -9,6 +9,12 @@ const statusSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comment"
+    }
+  ],
   likes: [
     {
       type: Schema.Types.ObjectId,
@@ -17,10 +23,10 @@ const statusSchema = new Schema({
   ],
   createdAt: {
     type: String,
-    default: Date,
+    default: Date
   }
 });
 
-const Status = model('Status', statusSchema)
+const Status = model("Status", statusSchema);
 
 module.exports = Status;
