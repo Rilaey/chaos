@@ -5,6 +5,7 @@ import { StatusCardProps } from "../Components/SingleStatusCard/SingleStatusCard
 import AddCommentButton from "../Components/AddCommentButton/AddCommentButton";
 import AddLike from "../Components/AddLike/AddLike";
 import { Box } from "@mui/material";
+import { AddCommentCard } from "../Components/AddCommentCard/AddCommentCard";
 
 const getUserId = (): string => {
   const userJson: string | null = localStorage.getItem("user");
@@ -14,14 +15,19 @@ const getUserId = (): string => {
   return statusCreator;
 };
 
-
 const Status = () => {
   const [statusInformation, setStatusInformation] = useState<
     StatusCardProps | undefined
   >();
 
+  const [commentButton, setCommentButton] = useState<boolean>(false);
+
   const { id } = useParams<{ id: string }>();
-  // console.log(id)
+
+  const showCommentCard = () => {
+    setCommentButton(true);
+    console.log("working");
+  };
 
   const updateStatus = useCallback(async () => {
     await fetch(`/api/status/likeStatus/${id}`, {
@@ -34,9 +40,8 @@ const Status = () => {
       })
     });
 
-    console.log(statusInformation)
-
-  }, [id, statusInformation])
+    console.log(statusInformation);
+  }, [id, statusInformation]);
 
   useEffect(() => {
     const getOneStatus = async () => {
@@ -55,13 +60,19 @@ const Status = () => {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center"
+        flexDirection: "column"
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "25px",
+
+        }}
+      >
         {typeof statusInformation !== "undefined" && (
           <SingleStatusCard
             _id={statusInformation._id}
@@ -71,23 +82,27 @@ const Status = () => {
             likes={statusInformation.likes}
           />
         )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            // width: "100%",
+            margin: "10px",
+            // flexGrow: 1
+          }}
+        >
+          <AddCommentButton showCard={showCommentCard} />
+          {typeof statusInformation !== "undefined" && (
+            <AddLike
+              likes={statusInformation.likes}
+              likeStatus={updateStatus}
+            />
+          )}
+        </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <AddCommentButton />
-        {typeof statusInformation !== "undefined" && (
-          <AddLike
-            likes={statusInformation.likes}
-            likeStatus={updateStatus}
-          />
-        )}
-      </Box>
+      <Box>{commentButton && <AddCommentCard />}</Box>
     </Box>
   );
 };

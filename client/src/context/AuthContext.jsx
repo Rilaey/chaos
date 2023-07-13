@@ -10,6 +10,8 @@ export const authReducer = (state, action) => {
       return { user: action.payload };
     case "LIKE_STATUS" :
       return { user: action.payload };
+    case "CREATE_COMMENT":
+      return { user: action.payload };
     case "LOGOUT":
       return { user: null };
     default:

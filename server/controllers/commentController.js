@@ -3,28 +3,19 @@ const { User, Status, Comment } = require("../models/index");
 // leave comment on status
 const commentStatus = async (req, res) => {
   try {
-    console.log("req.body.user:", req.body.user);
-    console.log("req.params.id:", req.params.statusId);
-
     const comment = await Comment.create({
       commentText: req.body.commentText,
       commentStatusId: req.params.statusId,
       user: req.body.user
     });
 
-    console.log("Created comment:", comment);
-
     const status = await Status.findByIdAndUpdate(req.params.statusId, {
       $push: { comments: comment._id }
     });
 
-    console.log("Updated status:", status);
-
     const user = await User.findByIdAndUpdate(req.body.user, {
       $push: { statusComments: comment._id }
     });
-
-    console.log("Updated user:", user);
 
     res.status(200).json({ comment, status, user });
   } catch (err) {

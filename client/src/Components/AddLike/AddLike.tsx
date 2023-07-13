@@ -19,13 +19,21 @@ const AddLike = ({ likes, likeStatus }: AddLikeProps) => {
         sx={{
           backgroundColor: "#1E1E1E",
           color: "red",
-          width: "100%"
+          width: "100%",
+          border: "2px solid black",
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          padding: "10px",
+          fontSize: "16px"
         }}
       >
         {likes.length == 1 ?
-        <Typography>{likes.length} Like</Typography>
+        <Typography sx={{
+          fontSize: "16px"
+        }}>{likes.length} Like</Typography>
         :
-        <Typography>{likes.length} Likes</Typography>
+        <Typography sx={{
+          fontSize: "16px"
+        }}>{likes.length} Likes</Typography>
       }
       </Button>
     </Box>
