@@ -7,8 +7,8 @@ export const useCreateComment = () => {
 
   const { dispatch } = useAuthContext();
 
-  const createComment = async (commentText, commentStatusId, user) => {
-    const response = await fetch(`/api/comment/${commentStatusId}`, {
+  const createComment = async (commentText, id, user) => {
+    const response = await fetch(`/api/comment/createComment/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -19,11 +19,9 @@ export const useCreateComment = () => {
     const data = await response.json();
 
     if (response.ok) {
-      dispatch({
-        type: "CREATE_COMMENT",
-        payload: data
-      });
-      setIsLoading(false);
+      setIsLoading(false)
+      console.log(data)
+      return data;
     }
 
     if (!response.ok) {
