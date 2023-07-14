@@ -56,17 +56,22 @@ const CreateStatusCard = ({ onSubmit }: CreateStatusCardProps) => {
       <CssBaseline />
       <Box
         sx={{
-          border: "2px solid red",
+          // border: "2px solid red",
           display: "flex",
           justifyContent: "center",
           margin: "10px",
+          padding: "10px",
+          borderRadius: "20px",
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          width: "100%"
+          // backgroundColor: "#2F2F31",
         }}
         component="form"
         onSubmit={handleSubmit}
       >
         {error && <div>{error}</div>}
         <TextField
-          sx={{ margin: "5px" }}
+          sx={{ margin: "10px", width: "100%", padding: "10px" }}
           type="text"
           size="medium"
           placeholder="Create Status..."
@@ -75,7 +80,7 @@ const CreateStatusCard = ({ onSubmit }: CreateStatusCardProps) => {
           onChange={handleChange}
         />
         <Button
-          sx={{ margin: "5px", backgroundColor: "#1E1E1E", color: "red" }}
+          sx={{ margin: "10px", backgroundColor: "#1E1E1E", color: "red", padding: "10px", width: "10%", borderRadius: "20px" }}
           variant="contained"
           type="submit"
           disabled={isLoading}

@@ -32,7 +32,8 @@ const StatusCard = ({
           borderRadius: "10px",
           padding: "10px",
           margin: "10px",
-          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)"
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          // border: "2px solid yellow"
         }}
       >
         <Box sx={{

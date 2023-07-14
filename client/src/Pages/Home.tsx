@@ -36,7 +36,8 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: "center",
+        width: "100%",
+        marginTop: "20px",
       }}
     >
       <div style={{
@@ -51,7 +52,8 @@ export default function Home() {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          flexWrap: "wrap"
+          flexWrap: "wrap",
+          margin: "10px"
         }}
       >
         {callFeed.map((item) => {

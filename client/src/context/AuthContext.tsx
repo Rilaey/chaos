@@ -1,14 +1,16 @@
 import { createContext, useReducer, useEffect } from "react";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext(null);
 
-export const authReducer = (state, action) => {
+export const authReducer = (state: any, action: { type: any; payload: any; }) => {
   switch (action.type) {
     case "LOGIN":
       return { user: action.payload };
     case "STATUS":
       return { user: action.payload };
     case "LIKE_STATUS" :
+      return { user: action.payload };
+    case "CREATE_COMMENT":
       return { user: action.payload };
     case "LOGOUT":
       return { user: null };

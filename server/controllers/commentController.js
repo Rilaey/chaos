@@ -3,28 +3,19 @@ const { User, Status, Comment } = require("../models/index");
 // leave comment on status
 const commentStatus = async (req, res) => {
   try {
-    console.log("req.body.user:", req.body.user);
-    console.log("req.params.id:", req.params.statusId);
-
     const comment = await Comment.create({
       commentText: req.body.commentText,
-      commentStatusId: req.params.statusId,
+      commentStatusId: req.params.commentStatusId,
       user: req.body.user
     });
 
-    console.log("Created comment:", comment);
-
-    const status = await Status.findByIdAndUpdate(req.params.statusId, {
+    const status = await Status.findByIdAndUpdate(req.params.commentStatusId, {
       $push: { comments: comment._id }
     });
-
-    console.log("Updated status:", status);
 
     const user = await User.findByIdAndUpdate(req.body.user, {
       $push: { statusComments: comment._id }
     });
-
-    console.log("Updated user:", user);
 
     res.status(200).json({ comment, status, user });
   } catch (err) {
@@ -36,13 +27,9 @@ const commentStatus = async (req, res) => {
 // get all comments
 const getAllComments = async (req, res) => {
   try {
-    const comment = await Comment.find();
+    const status = await Status.findById(req.params.id).populate("comments")
 
-    if (comment.length === 0) {
-      res.status(404).json({ message: "No comments found!" });
-    }
-
-    res.status(200).json(comment);
+    res.status(200).json(status)
   } catch (err) {
     res.status(500).json(err);
   }
@@ -50,7 +37,7 @@ const getAllComments = async (req, res) => {
 
 const getOneComment = async (req, res) => {
   try {
-    const comment = await Comment.findById(req.params.id);
+    const comment = await Comment.findById(req.params.id).populate("user");
 
     if (!comment) {
       res.status(404).json({ message: "No comment found!" });

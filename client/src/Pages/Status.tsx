@@ -5,63 +5,63 @@ import { StatusCardProps } from "../Components/SingleStatusCard/SingleStatusCard
 import AddCommentButton from "../Components/AddCommentButton/AddCommentButton";
 import AddLike from "../Components/AddLike/AddLike";
 import { Box } from "@mui/material";
-
-const getUserId = (): string => {
-  const userJson: string | null = localStorage.getItem("user");
-  const toJson: { user: { _id: string } } = JSON.parse(userJson as string);
-  const statusCreator: string = toJson.user._id;
-
-  return statusCreator;
-};
-
+import { AddCommentCard } from "../Components/AddCommentCard/AddCommentCard";
+import CommentCard from "../Components/CommentCard/CommentCard";
+import { useLikeStatus } from "../hooks/useLikeStatus";
+import { useGetOneStatus } from "../hooks/useGetOneStatus";
 
 const Status = () => {
-  const [statusInformation, setStatusInformation] = useState<
-    StatusCardProps | undefined
-  >();
+  const [statusInformation, setStatusInformation] = useState<StatusCardProps>();
+  const [commentButton, setCommentButton] = useState<boolean>(false);
 
+  // Hooks
+  const { likeStatus } = useLikeStatus();
+
+  // id for status
   const { id } = useParams<{ id: string }>();
-  // console.log(id)
+
+  // show create comment component
+  const showCommentCard = () => {
+    setCommentButton(true);
+  };
+
+  const getOneStatus = useCallback(async () => {
+    const response = await fetch(`/api/status/singleStatus/${id}`);
+
+    const data = await response.json();
+
+    setStatusInformation(data);
+  }, [id]);
 
   const updateStatus = useCallback(async () => {
-    await fetch(`/api/status/likeStatus/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        userId: getUserId()
-      })
-    });
-
-    console.log(statusInformation)
-
-  }, [id, statusInformation])
+    await likeStatus(id);
+  }, [id, likeStatus]);
 
   useEffect(() => {
-    const getOneStatus = async () => {
-      const response = await fetch(`/api/status/singleStatus/${id}`);
-
-      const data = await response.json();
-      // console.log(data);
-
-      setStatusInformation(data);
-    };
-
     getOneStatus();
-  }, [id, updateStatus]);
+  }, [getOneStatus, id]);
 
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
-        width: "100%",
+        flexDirection: "column",
         justifyContent: "center",
-        alignItems: "center"
+        width: "100%"
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "25px",
+          borderRadius: "20px",
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          border: "2px solid black"
+        }}
+      >
         {typeof statusInformation !== "undefined" && (
           <SingleStatusCard
             _id={statusInformation._id}
@@ -69,24 +69,38 @@ const Status = () => {
             createdBy={statusInformation.createdBy}
             createdAt={statusInformation.createdAt}
             likes={statusInformation.likes}
+            comments={statusInformation.comments}
           />
         )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "10px"
+          }}
+        >
+          <AddCommentButton showCard={showCommentCard} />
+          {typeof statusInformation !== "undefined" && (
+            <AddLike
+              likes={statusInformation.likes}
+              likeStatus={updateStatus}
+            />
+          )}
+        </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <AddCommentButton />
-        {typeof statusInformation !== "undefined" && (
-          <AddLike
-            likes={statusInformation.likes}
-            likeStatus={updateStatus}
-          />
-        )}
+      <Box>{commentButton && <AddCommentCard />}</Box>
+      <Box>
+        {statusInformation?.comments?.map((item) => {
+          return (
+            <CommentCard
+              key={item._id}
+              comment={item.commentText}
+              user={item.user.firstName}
+            />
+          );
+        })}
       </Box>
     </Box>
   );

@@ -3,10 +3,10 @@ const router = express.Router();
 
 const { commentStatus, getAllComments, getOneComment } = require("../../controllers/commentController");
 
-router.post("/:statusId", commentStatus);
+router.post("/createComment/:id", commentStatus);
 
-router.get("/allComments", getAllComments);
+router.get("/allComments/:id", getAllComments);
 
-router.get("/:id", getOneComment);
+router.get("/oneComment/:id", getOneComment);
 
 module.exports = router;

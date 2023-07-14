@@ -3,7 +3,10 @@ const { User, Status } = require("../models");
 // get all status
 const getAllStatus = async (req, res) => {
   try {
-    const status = await Status.find().populate("createdBy").sort({createdAt: "desc"}).limit(10)
+    const status = await Status.find()
+      .populate("createdBy")
+      .sort({ createdAt: "desc" })
+      .limit(10);
 
     res.status(200).json(status);
   } catch (err) {
@@ -15,7 +18,9 @@ const getAllStatus = async (req, res) => {
 // get status by id
 const getStatusById = async (req, res) => {
   try {
-    const status = await Status.findById(req.params.id).populate("createdBy")
+    const status = await Status.findById(req.params.id)
+      .populate("createdBy")
+      .populate({ path: "comments", populate: { path: "user" } });
 
     res.status(200).json(status);
   } catch (err) {

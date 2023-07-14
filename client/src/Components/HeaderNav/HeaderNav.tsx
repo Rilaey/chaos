@@ -29,7 +29,7 @@ export default function HeaderNav() {
                 Chaos
               </Typography>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Welcome Back, {user?.user.firstName}!
+                Welcome Back, {user.user.firstName.trim()}!
               </Typography>
               <>
                 <Button color="inherit" onClick={() => navigate("/")}>
