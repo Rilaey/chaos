@@ -19,7 +19,12 @@ const getAllStatus = async (req, res) => {
 const getStatusById = async (req, res) => {
   try {
     const status = await Status.findById(req.params.id)
-      .populate("createdBy").populate("statusComments")
+      .populate("createdBy")
+      .populate({
+        path: "statusComments",
+        populate: { path: "commentCreator" },
+        options: { sort: { createdAt: -1 } } // Replace 'fieldNameToSort' with the actual field you want to sort by
+      });
 
     res.status(200).json(status);
   } catch (err) {
@@ -92,11 +97,17 @@ const commentStatus = async (req, res) => {
     await user.save();
     await status.save();
 
-    res.status(200).json({ status, comment })
+    res.status(200).json({ status, comment });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json(err);
   }
 };
 
-module.exports = { getAllStatus, getStatusById, createStatus, likeStatus, commentStatus };
+module.exports = {
+  getAllStatus,
+  getStatusById,
+  createStatus,
+  likeStatus,
+  commentStatus
+};

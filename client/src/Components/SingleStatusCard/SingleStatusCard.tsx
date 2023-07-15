@@ -10,7 +10,7 @@ export interface StatusCardProps {
   createdBy: User;
   createdAt: string;
   likes: Like[];
-  comments: Comment[];
+  statusComments: Comment[];
 }
 
 const SingleStatusCard = ({
