@@ -1,10 +1,10 @@
-require('dotenv').config()
+require("dotenv").config();
 const { User } = require("../models");
 const jwt = require("jsonwebtoken");
 
 const createToken = (_id) => {
-  return jwt.sign({_id}, process.env.SECRET, {expiresIn: "1d"})
-}
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
+};
 
 // find all users
 const getAllUsers = async (req, res) => {
@@ -21,7 +21,13 @@ const getAllUsers = async (req, res) => {
 // find one user by id
 const getOneUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id)
+      .populate("status")
+      .populate({
+        path: "status",
+        populate: { path: "createdBy" },
+        options: { sort: { createdAt: -1 } } // Replace 'fieldNameToSort' with the actual field you want to sort by
+      });
 
     res.status(200).json(user);
   } catch (err) {
@@ -41,7 +47,7 @@ const createUser = async (req, res) => {
     });
 
     // crete token
-    const token = createToken(user._id)
+    const token = createToken(user._id);
 
     res.status(200).json({ user, token });
   } catch (err) {
@@ -54,14 +60,14 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.login(email, password)
+    const user = await User.login(email, password);
 
-    const token = createToken(user._id)
+    const token = createToken(user._id);
 
     res.status(200).json({ user, token });
   } catch (err) {
     res.status(500).json(`Error: ${err}`);
-    console.log(err)
+    console.log(err);
   }
 };
 

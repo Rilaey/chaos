@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -34,6 +33,9 @@ export default function HeaderNav() {
               <>
                 <Button color="inherit" onClick={() => navigate("/")}>
                   Home
+                </Button>
+                <Button color="inherit" onClick={() => navigate(`/profile/${user.user._id}`)}>
+                  Profile
                 </Button>
                 <Button color="inherit" onClick={handleLogout}>
                   Logout

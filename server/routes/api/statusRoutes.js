@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const requireAuth = require("../../middleware/requireAuth");
 
-// // // require auth for all status routes
+// require auth for all status routes
 router.use(requireAuth)
 
 const {
