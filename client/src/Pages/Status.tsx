@@ -4,11 +4,12 @@ import { useParams } from "react-router-dom";
 import { StatusCardProps } from "../Components/SingleStatusCard/SingleStatusCard";
 import AddCommentButton from "../Components/AddCommentButton/AddCommentButton";
 import AddLike from "../Components/AddLike/AddLike";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { AddCommentCard } from "../Components/AddCommentCard/AddCommentCard";
 import CommentCard from "../Components/CommentCard/CommentCard";
 import { useLikeStatus } from "../hooks/useLikeStatus";
 import { useGetOneStatus } from "../hooks/useGetOneStatus";
+import { getToken } from "../utils/getToken";
 
 const Status = () => {
   const [statusInformation, setStatusInformation] = useState<StatusCardProps>();
@@ -26,7 +27,13 @@ const Status = () => {
   };
 
   const getOneStatus = useCallback(async () => {
-    const response = await fetch(`/api/status/singleStatus/${id}`);
+    const response = await fetch(`/api/status/singleStatus/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getToken()}`,
+      }
+    });
 
     const data = await response.json();
 
@@ -69,7 +76,7 @@ const Status = () => {
             createdBy={statusInformation.createdBy}
             createdAt={statusInformation.createdAt}
             likes={statusInformation.likes}
-            comments={statusInformation.comments}
+            statusComments={statusInformation.statusComments}
           />
         )}
         <Box
@@ -93,7 +100,6 @@ const Status = () => {
       <Box>{commentButton && <AddCommentCard />}</Box>
       <Box>
         {statusInformation?.statusComments?.map((item) => {
-          console.log(statusInformation.statusComments)
           return (
             <CommentCard
               key={item._id}

@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import CreateStatusCard from "../Components/CreateStatusCard/CreateStatusCard";
 import StatusCard from "../Components/StatusCard/StatusCard";
 import { User } from "../models/User";
-import { Like } from "../models/Like"
+import { Like } from "../models/Like";
+import { getToken } from "../utils/getToken"
 
 interface FeedCardProps {
   _id: string;
@@ -18,10 +19,14 @@ export default function Home() {
   const fetchFeed = useCallback(async () => {
     const response = await fetch("/api/status/allStatus", {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getToken()}`,
+      }
     });
 
     const data = await response.json();
-    console.log(data)
+    // console.log(data)
 
     setFeedCard(data);
   }, [])

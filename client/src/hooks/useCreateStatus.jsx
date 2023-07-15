@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { getToken } from "../utils/getToken";
 
 export const useStatus = () => {
   const [error, setError] = useState(null);
@@ -13,7 +14,8 @@ export const useStatus = () => {
     const response = await fetch("/api/status/createStatus", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({ message, createdBy})
     });

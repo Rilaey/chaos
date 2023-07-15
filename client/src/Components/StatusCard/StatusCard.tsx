@@ -2,12 +2,14 @@ import { Container, Box, Typography, Button } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { User } from "../../models/User";
 import { Like } from "../../models/Like";
+import { Comment } from "../../models/Comment"
 
-interface StatusCardProps {
+export interface StatusCardProps {
   _id: string;
   message: string;
   createdBy: User;
   likes: Like[];
+  comments: [];
   createdAt: string;
 }
 
