@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useAuthContext } from "./hooks/useAuthContext";
 import HeaderNav from "./Components/HeaderNav/HeaderNav";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -14,6 +15,7 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const { user } = useAuthContext()
 
   return (
     <BrowserRouter>
@@ -21,10 +23,10 @@ function App() {
         <CssBaseline />
         <HeaderNav />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={user ? <Home /> : <Navigate to="/login"/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
-          <Route path="/status/:id" element={<Status />} />
+          <Route path="/status/:id" element={user ? <Status /> : <Navigate to="/login"/>} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

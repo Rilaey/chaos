@@ -69,7 +69,7 @@ const Status = () => {
             createdBy={statusInformation.createdBy}
             createdAt={statusInformation.createdAt}
             likes={statusInformation.likes}
-            comments={statusInformation.comments}
+            statusComments={statusInformation.statusComments}
           />
         )}
         <Box
@@ -93,7 +93,6 @@ const Status = () => {
       <Box>{commentButton && <AddCommentCard />}</Box>
       <Box>
         {statusInformation?.statusComments?.map((item) => {
-          console.log(statusInformation.statusComments)
           return (
             <CommentCard
               key={item._id}
