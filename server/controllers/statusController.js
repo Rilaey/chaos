@@ -1,4 +1,4 @@
-const { User, Status } = require("../models");
+const { User, Status, Comment } = require("../models");
 
 // get all status
 const getAllStatus = async (req, res) => {
@@ -19,8 +19,7 @@ const getAllStatus = async (req, res) => {
 const getStatusById = async (req, res) => {
   try {
     const status = await Status.findById(req.params.id)
-      .populate("createdBy")
-      .populate({ path: "comments", populate: { path: "user" } });
+      .populate("createdBy").populate("statusComments")
 
     res.status(200).json(status);
   } catch (err) {
@@ -74,4 +73,30 @@ const likeStatus = async (req, res) => {
   }
 };
 
-module.exports = { getAllStatus, getStatusById, createStatus, likeStatus };
+// comment status
+const commentStatus = async (req, res) => {
+  try {
+    const status = await Status.findById(req.params.id);
+
+    const comment = await Comment.create({
+      commentText: req.body.commentText,
+      commentCreator: req.body.commentCreator
+    });
+
+    const user = await User.findById(req.body.commentCreator);
+
+    user.comments.push(comment);
+
+    status.statusComments.push(comment);
+
+    await user.save();
+    await status.save();
+
+    res.status(200).json({ status, comment })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err);
+  }
+};
+
+module.exports = { getAllStatus, getStatusById, createStatus, likeStatus, commentStatus };
