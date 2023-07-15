@@ -3,11 +3,12 @@ import { Comment } from "../../models/Comment"
 import { User } from "../../models/User"
 
 interface CommentCardProps {
-    comment: string;
-    user: string;
+    commentText: string;
+    commentCreator: User;
+    createdAt: string;
 }
 
-const CommentCard = ({ comment, user}:CommentCardProps) => {
+const CommentCard = ({ commentText, commentCreator, createdAt}:CommentCardProps) => {
   return (
     <Container>
     <CssBaseline />
@@ -33,13 +34,16 @@ const CommentCard = ({ comment, user}:CommentCardProps) => {
       }}>
         <Typography variant="h4" sx={{
           marginBottom: "5px"
-        }}>{comment}</Typography>
+        }}>{commentText}</Typography>
         <Typography sx={{
           marginBottom: "5px",
           color: "lightgray"
         }}>
-          {user}
+          {commentCreator.firstName} {commentCreator.lastName}
         </Typography >
+        <Typography>
+          {createdAt}
+        </Typography>
       </Box>
     </Box>
   </Container>

@@ -92,13 +92,14 @@ const Status = () => {
       </Box>
       <Box>{commentButton && <AddCommentCard />}</Box>
       <Box>
-        {statusInformation?.comments?.map((item) => {
+        {statusInformation?.statusComments?.map((item) => {
+          console.log(statusInformation.statusComments)
           return (
             <CommentCard
               key={item._id}
-              comment={item.commentText}
-              user={item.user.firstName}
-            />
+              commentText={item.commentText}
+              commentCreator={item.commentCreator}
+              createdAt={item.createdAt}            />
           );
         })}
       </Box>
