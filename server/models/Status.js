@@ -9,7 +9,7 @@ const statusSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  comments: [
+  statusComments: [
     {
       type: Schema.Types.ObjectId,
       ref: "Comment"

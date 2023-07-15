@@ -5,11 +5,7 @@ const commentSchema = new Schema({
     type: String,
     required: true
   },
-  commentStatusId: {
-    type: Schema.Types.ObjectId,
-    ref: "Status"
-  },
-  user: {
+  commentCreator: {
     type: Schema.Types.ObjectId,
     ref: "User"
   }
