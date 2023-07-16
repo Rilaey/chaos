@@ -5,6 +5,7 @@ import { User } from "../../models/User";
 import { useAuthContext } from "../../hooks/useAuthContext";
 // import { useCreateComment } from "../../hooks/useCreateComment";
 import { getUserId } from "../../utils/getUserId"
+import { getToken } from "../../utils/getToken";
 
 interface AddCommentState {
   commentText: string;
@@ -34,6 +35,7 @@ export const AddCommentCard = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(commentState),
     })
@@ -79,13 +81,10 @@ export const AddCommentCard = () => {
         value={commentState.commentText}
         onChange={handleInputChange}
       />
-      {/* {error && <Box>{error}</Box>} */}
       <Button
         sx={{ margin: "10px", backgroundColor: "#1E1E1E", color: "red", padding: "10px", width: "10%", borderRadius: "20px" }}
         variant="contained"
         type="submit"
-        // disabled={isLoading}
-        // onClick={createComment}
       >
         Post
       </Button>

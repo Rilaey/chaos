@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import CreateStatusCard from "../Components/CreateStatusCard/CreateStatusCard";
 import StatusCard from "../Components/StatusCard/StatusCard";
 import { User } from "../models/User";
 import { Like } from "../models/Like";
-import { getToken } from "../utils/getToken"
+import { getToken } from "../utils/getToken";
+import { useLikeStatus } from "../hooks/useLikeStatus";
 
 interface FeedCardProps {
   _id: string;
@@ -16,23 +18,24 @@ interface FeedCardProps {
 export default function Home() {
   const [callFeed, setFeedCard] = useState<FeedCardProps[]>([]);
 
+  const { id } = useParams<{ id: string }>();
+
   const fetchFeed = useCallback(async () => {
     const response = await fetch("/api/status/allStatus", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getToken()}`
       }
     });
 
     const data = await response.json();
-    // console.log(data)
 
     setFeedCard(data);
-  }, [])
+  }, []);
 
   useEffect(() => {
-      fetchFeed();
+    fetchFeed();
   }, [fetchFeed]);
 
   return (
@@ -42,12 +45,14 @@ export default function Home() {
         flexDirection: "column",
         justifyContent: "center",
         width: "100%",
-        marginTop: "20px",
+        marginTop: "20px"
       }}
     >
-      <div style={{
-        width: "100%",
-      }}>
+      <div
+        style={{
+          width: "100%"
+        }}
+      >
         <CreateStatusCard onSubmit={fetchFeed} />
       </div>
       <div
@@ -70,6 +75,7 @@ export default function Home() {
               createdBy={item.createdBy}
               likes={item.likes}
               createdAt={item.createdAt}
+              comments={[]}
             />
           );
         })}
@@ -77,3 +83,5 @@ export default function Home() {
     </div>
   );
 }
+
+
