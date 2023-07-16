@@ -8,12 +8,14 @@ import { Box, Button } from "@mui/material";
 import { AddCommentCard } from "../Components/AddCommentCard/AddCommentCard";
 import CommentCard from "../Components/CommentCard/CommentCard";
 import { useLikeStatus } from "../hooks/useLikeStatus";
-import { useGetOneStatus } from "../hooks/useGetOneStatus";
+// import { useGetOneStatus } from "../hooks/useGetOneStatus";
 import { getToken } from "../utils/getToken";
 
 const Status = () => {
   const [statusInformation, setStatusInformation] = useState<StatusCardProps>();
   const [commentButton, setCommentButton] = useState<boolean>(false);
+
+  console.log(statusInformation)
 
   // Hooks
   const { likeStatus } = useLikeStatus();

@@ -1,11 +1,13 @@
 import { getUserId } from "../utils/getUserId";
+import { getToken } from "../utils/getToken"
 
 export const useLikeStatus = () => {
   const likeStatus = async (id) => {
     const response = await fetch(`/api/status/likeStatus/${id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({
         userId: getUserId()
@@ -15,6 +17,7 @@ export const useLikeStatus = () => {
     const data = response.json();
 
     if (!response.ok) {
+      window.alert("User already liked status!")
       console.log("error in useLikeStatus");
     }
 

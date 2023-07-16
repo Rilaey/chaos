@@ -18,7 +18,7 @@ const StatusCard = ({
   message,
   createdBy,
   likes,
-  createdAt
+  createdAt,
 }: StatusCardProps) => {
   return (
     <Container>

@@ -60,16 +60,26 @@ const createStatus = async (req, res) => {
 // like status
 const likeStatus = async (req, res) => {
   try {
+    // Check if the user has already liked the status
+    const likedStatus = await Status.findOne({
+      _id: req.params.id,
+      likes: req.body.userId,
+    });
+
+    if (likedStatus) {
+      return res.status(400).json({ error: 'User has already liked this status.' });
+    }
+
     const status = await Status.findByIdAndUpdate(
       req.params.id,
-      { $push: { likes: req.body.userId } }, // Assuming req.body.userId contains the user ID
-      { new: true } // To return the updated status instead of the original one
+      { $push: { likes: req.body.userId } },
+      { new: true }
     );
 
     // Update the user if necessary
     const user = await User.findByIdAndUpdate(
-      req.body.userId, // Assuming req.body.userId contains the user ID
-      { $push: { likedStatuses: req.params.id } } // Assuming you want to associate the liked status with the user
+      req.body.userId,
+      { $push: { likedStatuses: req.params.id } }
     );
 
     res.status(200).json({ status, user });
@@ -77,6 +87,7 @@ const likeStatus = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
 
 // comment status
 const commentStatus = async (req, res) => {
