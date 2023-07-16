@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { getToken } from "../utils/getToken"
 
 export const useSignUp = () => {
   const [error, setError] = useState(null);
@@ -16,7 +17,8 @@ export const useSignUp = () => {
     const response = await fetch("/api/user/createUser", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({ firstName, lastName, email, password})
     });

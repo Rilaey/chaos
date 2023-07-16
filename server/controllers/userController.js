@@ -71,9 +71,28 @@ const loginUser = async (req, res) => {
   }
 };
 
+// follow user
+const followUser = async (req, res) => {
+  try {
+    const userToFollow = await User.findByIdAndUpdate(req.params.id, {
+      $push: { followers: req.body.userId }
+    })
+
+    const userSetFollowing = await User.findByIdAndUpdate(req.body.userId, {
+      $push: { following: req.params.id }
+    })
+
+    res.status(200).json({ userToFollow, userSetFollowing });
+  } catch (err) {
+    res.status(500).json(`Error: ${err}`);
+    console.log(err);
+  }
+}
+
 module.exports = {
   getAllUsers,
   getOneUserById,
   createUser,
-  loginUser
+  loginUser,
+  followUser
 };
