@@ -2,7 +2,7 @@ import { Container, Box, Typography, Button } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { User } from "../../models/User";
 import { Like } from "../../models/Like";
-import { Comment } from "../../models/Comment"
+import { useLikeStatus } from "../../hooks/useLikeStatus";
 
 export interface StatusCardProps {
   _id: string;
@@ -20,6 +20,9 @@ const StatusCard = ({
   likes,
   createdAt,
 }: StatusCardProps) => {
+  // Hooks
+  const { likeStatus } = useLikeStatus()
+
   return (
     <Container>
       <CssBaseline />
@@ -74,7 +77,8 @@ const StatusCard = ({
                 width: "100%"
               }}
               variant="contained"
-              href={`/status/${_id}`}
+              onClick={() => likeStatus(_id)}
+              // href={`/status/${_id}`}
             >
               {likes.length == 1 ? (
                 <Typography>{likes.length} Like</Typography>

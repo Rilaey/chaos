@@ -1,8 +1,8 @@
-import { Container, Box, Typography } from "@mui/material";
+import { Container, Box, Typography, Button } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { User } from "../../models/User";
 import { Like } from "../../models/Like";
-import { Comment } from "../../models/Comment"
+import { Comment } from "../../models/Comment";
 
 export interface StatusCardProps {
   _id: string;
@@ -19,7 +19,6 @@ const SingleStatusCard = ({
   createdBy,
   createdAt
 }: StatusCardProps) => {
-
   return (
     <Container>
       <CssBaseline />
@@ -41,6 +40,18 @@ const SingleStatusCard = ({
           boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)"
         }}
       >
+        {/* go to users profile page */}
+        <Button
+          sx={{
+            backgroundColor: "#1E1E1E",
+            color: "lightBlue",
+            margin: "5px"
+          }}
+          variant="contained"
+          href={`/profile/${createdBy._id}`}
+        >
+          View Profile
+        </Button>
         <Box
           sx={{
             display: "flex",
@@ -58,7 +69,7 @@ const SingleStatusCard = ({
             {message}
           </Typography>
         </Box>
-        <div
+        <Box
           style={{
             display: "flex",
             flexDirection: "row",
@@ -85,7 +96,7 @@ const SingleStatusCard = ({
           >
             {createdAt}
           </Typography>
-        </div>
+        </Box>
       </Box>
     </Container>
   );
