@@ -18,7 +18,7 @@ const Profile = () => {
   const { id } = useParams<{ id: string }>();
 
   const handleFollow = async () => {
-    await followUser(getUser.id, user.user._id);
+    await followUser(getUser._id, user.user._id);
   };
 
   const fetchUser = useCallback(async () => {
