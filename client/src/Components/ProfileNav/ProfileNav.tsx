@@ -55,7 +55,7 @@ export const ProfileNav = ({ firstName, lastName, followers, following, fetchFol
               margin: "5px"
             }}
             variant="contained"
-            onClick={() => fetchFollow}
+            onClick={fetchFollow}
           >
             Follow User
           </Button>
