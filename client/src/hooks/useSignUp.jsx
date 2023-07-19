@@ -10,7 +10,7 @@ export const useSignUp = () => {
 
   const navigate = useNavigate();
 
-  const signUp = async (firstName, lastName, email, password) => {
+  const signUp = async (firstName, lastName, email, password, bio) => {
     setIsLoading(true);
     setError(null);
 
@@ -20,7 +20,7 @@ export const useSignUp = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify({ firstName, lastName, email, password})
+      body: JSON.stringify({ firstName, lastName, email, password, bio })
     });
 
     const data = await response.json();

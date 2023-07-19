@@ -34,6 +34,7 @@ interface userFormData {
   lastName: string;
   email: string;
   password: string;
+  bio: string;
 }
 
 interface UseSignUpProps {
@@ -47,7 +48,8 @@ export default function SignUp() {
     firstName: "",
     lastName: "",
     email: "",
-    password: ""
+    password: "",
+    bio: ""
   });
 
   const { signUp, error, isLoading } = useSignUp<UseSignUpProps>();
@@ -64,7 +66,8 @@ export default function SignUp() {
       userFormData.firstName,
       userFormData.lastName,
       userFormData.email,
-      userFormData.password
+      userFormData.password,
+      userFormData.bio
     );
   };
 
@@ -131,18 +134,36 @@ export default function SignUp() {
                 type="password"
                 value={userFormData.password}
                 onChange={handleInputChange}
-                autoComplete="new-password"
               />
             </Grid>
             <Grid item xs={12}>
-            {error && <div style={{
-              color: "red",
-              padding: "10px",
-              border: "1px solid red",
-              borderRadius: "4px",
-              margin: "20px 0",
-              background: "#ffefef"
-            }}>{error}</div>}
+              <TextField
+              sx={{
+                width:"100%",
+              }}
+                label="Write a bio..."
+                multiline
+                maxRows={8}
+                value={userFormData.bio}
+                name="bio"
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              {error && (
+                <div
+                  style={{
+                    color: "red",
+                    padding: "10px",
+                    border: "1px solid red",
+                    borderRadius: "4px",
+                    margin: "20px 0",
+                    background: "#ffefef"
+                  }}
+                >
+                  {error}
+                </div>
+              )}
             </Grid>
           </Grid>
           <Button
@@ -150,8 +171,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             disabled={isLoading}
-            sx={{ mt: 3, mb: 2,         backgroundColor: "#1E1E1E",
-            color: "red", }}
+            sx={{ mt: 3, mb: 2, backgroundColor: "#1E1E1E", color: "red" }}
           >
             Sign Up
           </Button>
