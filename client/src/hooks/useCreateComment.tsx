@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 
 export const useCreateComment = () => {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  const [error, setError] = useState<null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { dispatch } = useAuthContext();
 
-  const createComment = async (commentText, id, commentCreator) => {
+  const createComment = async (commentText: string, id: string, commentCreator: string) => {
     const response = await fetch(`/api/status/commentStatus/${id}`, {
       method: "POST",
       headers: {

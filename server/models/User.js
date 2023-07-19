@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
-const validator = require("validator");
 
 const userSchema = new Schema(
   {
@@ -20,6 +19,15 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true
+    },
+    bio: {
+      type: String,
+      required: true
+    },
+    profilePicture: {
+      type: String,
+      default:
+        "https://img.freepik.com/premium-vector/avatar-profile-icon_188544-4755.jpg?size=626&ext=jpg"
     },
     followers: [
       {
