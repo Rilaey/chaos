@@ -60,9 +60,10 @@ const StatusCard = ({
               }}
             >
               <Typography
-                variant="h4"
                 sx={{
-                  marginBottom: "5px"
+                  marginBottom: "5px",
+                  fontWeight: "bold",
+                  fontSize: "24px",
                 }}
               >
                 {message}

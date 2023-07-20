@@ -23,7 +23,8 @@ const AddLike = ({ likes, likeStatus }: AddLikeProps) => {
           border: "2px solid black",
           boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
           padding: "10px",
-          fontSize: "16px"
+          fontSize: "16px",
+          marginTop: "10px",
         }}
       >
         {likes.length == 1 ?
