@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { StatusCardProps } from "../Components/SingleStatusCard/SingleStatusCard";
 import AddCommentButton from "../Components/AddCommentButton/AddCommentButton";
 import AddLike from "../Components/AddLike/AddLike";
-import { Box, Button } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { AddCommentCard } from "../Components/AddCommentCard/AddCommentCard";
 import CommentCard from "../Components/CommentCard/CommentCard";
 import { useLikeStatus } from "../hooks/useLikeStatus";
@@ -12,10 +12,9 @@ import { useLikeStatus } from "../hooks/useLikeStatus";
 import { getToken } from "../utils/getToken";
 
 const Status = () => {
+  // State
   const [statusInformation, setStatusInformation] = useState<StatusCardProps>();
   const [commentButton, setCommentButton] = useState<boolean>(false);
-
-  console.log(statusInformation)
 
   // Hooks
   const { likeStatus } = useLikeStatus();
@@ -27,6 +26,9 @@ const Status = () => {
   const showCommentCard = () => {
     setCommentButton(true);
   };
+
+  // Media query
+  const isSmallScreen = useMediaQuery("(max-width:830px)");
 
   const getOneStatus = useCallback(async () => {
     const response = await fetch(`/api/status/singleStatus/${id}`, {
@@ -51,7 +53,72 @@ const Status = () => {
   }, [getOneStatus, id]);
 
   return (
-    <Box
+    <>
+    {isSmallScreen ?
+      <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "100%"
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "25px",
+          borderRadius: "20px",
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          border: "2px solid black"
+        }}
+      >
+        {typeof statusInformation !== "undefined" && (
+          <SingleStatusCard
+            _id={statusInformation._id}
+            message={statusInformation.message}
+            createdBy={statusInformation.createdBy}
+            createdAt={statusInformation.createdAt}
+            likes={statusInformation.likes}
+            statusComments={statusInformation.statusComments}
+          />
+        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "10px",
+            width: "100%"
+          }}
+        >
+          <AddCommentButton showCard={showCommentCard} />
+          {typeof statusInformation !== "undefined" && (
+            <AddLike
+              likes={statusInformation.likes}
+              likeStatus={updateStatus}
+            />
+          )}
+        </Box>
+      </Box>
+      <Box>{commentButton && <AddCommentCard />}</Box>
+      <Box>
+        {statusInformation?.statusComments?.map((item) => {
+          return (
+            <CommentCard
+              key={item._id}
+              commentText={item.commentText}
+              commentCreator={item.commentCreator}
+              createdAt={item.createdAt}            />
+          );
+        })}
+      </Box>
+    </Box>
+  :
+<Box
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -112,6 +179,8 @@ const Status = () => {
         })}
       </Box>
     </Box>
+  }
+    </>
   );
 };
 

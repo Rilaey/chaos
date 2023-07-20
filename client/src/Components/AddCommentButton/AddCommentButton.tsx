@@ -13,7 +13,7 @@ const AddCommentButton = ({ showCard }: AddCommentButtonProps) => {
         width: "100%",
         border: "2px solid black",
         boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-        margin: "5%",
+        marginTop: "10px",
         padding: "10px",
         fontSize: "16px"
        }} variant="contained" onClick={showCard}>Add Comment</Button>
