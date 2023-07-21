@@ -52,8 +52,7 @@ const createStatus = async (req, res) => {
 
     res.status(200).json(status);
   } catch (err) {
-    console.log(`Error: ${err}`);
-    res.status(500).json(err);
+    res.status(500).json(`${err}`);
   }
 };
 
@@ -110,8 +109,7 @@ const commentStatus = async (req, res) => {
 
     res.status(200).json({ status, comment });
   } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    res.status(500).json(`${err}`);
   }
 };
 

@@ -6,7 +6,8 @@ const {
   getOneUserById,
   createUser,
   loginUser,
-  followUser
+  followUser,
+  uploadProfilePicture
 } = require("../../controllers/userController");
 
 router.get("/allUsers", getAllUsers);
@@ -18,5 +19,7 @@ router.post("/createUser", createUser);
 router.post("/loginUser", loginUser);
 
 router.put("/followUser/:id", followUser);
+
+// router.post("uploadProfilePicture/:id", uploadProfilePicture)
 
 module.exports = router;

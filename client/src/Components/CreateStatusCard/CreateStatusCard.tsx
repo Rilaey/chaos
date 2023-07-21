@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
-import { Container, Box, Button } from "@mui/material";
+import { Container, Box, Button, Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useStatus } from "../../hooks/useCreateStatus";
 
@@ -59,6 +59,7 @@ const CreateStatusCard = ({ onSubmit }: CreateStatusCardProps) => {
           // border: "2px solid red",
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
           margin: "10px",
           padding: "10px",
           borderRadius: "20px",
@@ -69,7 +70,20 @@ const CreateStatusCard = ({ onSubmit }: CreateStatusCardProps) => {
         component="form"
         onSubmit={handleSubmit}
       >
-        {error && <div>{error}</div>}
+        {error && (
+          <Typography
+            sx={{
+              color: "red",
+              padding: "10px",
+              border: "1px solid red",
+              borderRadius: "4px",
+              margin: "20px 0",
+              background: "#ffefef"
+            }}
+          >
+            {error}
+          </Typography>
+        )}
         <TextField
           sx={{ margin: "10px", width: "100%", padding: "10px" }}
           type="text"
@@ -80,7 +94,14 @@ const CreateStatusCard = ({ onSubmit }: CreateStatusCardProps) => {
           onChange={handleChange}
         />
         <Button
-          sx={{ margin: "10px", backgroundColor: "#1E1E1E", color: "red", padding: "10px", width: "10%", borderRadius: "20px" }}
+          sx={{
+            margin: "10px",
+            backgroundColor: "#1E1E1E",
+            color: "red",
+            padding: "10px",
+            width: "10%",
+            borderRadius: "20px"
+          }}
           variant="contained"
           type="submit"
           disabled={isLoading}
