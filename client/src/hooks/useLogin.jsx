@@ -24,7 +24,8 @@ export const useLogin = () => {
     const data = await response.json();
 
     if (!response.ok) {
-        setError(data.error);
+      console.log(data)
+        setError(data);
         setIsLoading(false);
         return;
     }

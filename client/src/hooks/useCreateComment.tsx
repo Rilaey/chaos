@@ -22,10 +22,11 @@ export const useCreateComment = () => {
     if(response.ok) {
       dispatch({ type: "CREATE_COMMENT", payload: data });
       setIsLoading(false);
+      location.reload()
     }
 
     if (!response.ok) {
-      setError(data.message);
+      setError(data);
       setIsLoading(false);
     }
   };

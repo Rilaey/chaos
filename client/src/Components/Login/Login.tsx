@@ -75,21 +75,6 @@ export default function Login() {
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
-          {/* WHY THE FUCK DOES ERROR HANDLING NOT WORK */}
-          {error && (
-            <div
-              style={{
-                color: "red",
-                padding: "10px",
-                border: "1px solid red",
-                borderRadius: "4px",
-                margin: "20px 0",
-                background: "#ffefef"
-              }}
-            >
-              {error}
-            </div>
-          )}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -114,6 +99,20 @@ export default function Login() {
             onChange={handleInputChange}
             autoComplete="current-password"
           />
+          {error && (
+            <Typography
+              sx={{
+                color: "red",
+                padding: "10px",
+                border: "1px solid red",
+                borderRadius: "4px",
+                margin: "20px 0",
+                background: "#ffefef"
+              }}
+            >
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth

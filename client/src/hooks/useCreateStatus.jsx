@@ -25,7 +25,7 @@ export const useStatus = () => {
     console.log(data)
 
     if (!response.ok) {
-      setError(data.error);
+      setError(data);
       setIsLoading(false);
       return;
     }
