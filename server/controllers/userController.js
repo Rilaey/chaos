@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 // image uploading
 const multer = require('multer');
-const path = require('path');
+// const path = require('path');
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
@@ -100,18 +100,14 @@ const followUser = async (req, res) => {
 // upload profile picture
 // const uploadProfilePicture = async (req, res) => {
 //   try {
-//     upload.single('image')
-
 //     // Update the user's profile picture URL in the database
-//     const user = await User.findByIdAndUpdate(req.params.id)
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-
-//     // Save the image metadata to MongoDB and update the user's profile picture field
-//     user.profilePicture = '/uploads/' + req.file.filename;
+//     const user = await User.findByIdAndUpdate(req.params.id, {
+//       profilePicture: req.file.path
+//     })
 
 //     await user.save();
+
+//     console.log(user)
 
 //     // Respond with success status and the updated user object
 //     res.status(200).json({ message: 'Profile picture uploaded successfully', user });
