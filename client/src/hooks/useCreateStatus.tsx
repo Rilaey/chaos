@@ -1,13 +1,13 @@
-import { useState } from "react";
+import * as React from "react";
 import { useAuthContext } from "./useAuthContext";
 import { getToken } from "../utils/getToken";
 
 export const useStatus = () => {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  const [error, setError] = React.useState<null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { dispatch } = useAuthContext();
 
-  const createStatus = async (message, createdBy) => {
+  const createStatus = async (message: string, createdBy: string) => {
     setError(null);
     setIsLoading(false);
 
@@ -15,14 +15,12 @@ export const useStatus = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getToken()}`
       },
-      body: JSON.stringify({ message, createdBy})
+      body: JSON.stringify({ message, createdBy })
     });
 
     const data = await response.json();
-
-    console.log(data)
 
     if (!response.ok) {
       setError(data);
@@ -36,5 +34,5 @@ export const useStatus = () => {
     }
   };
 
-  return { createStatus, error, isLoading }
+  return { createStatus, error, isLoading };
 };

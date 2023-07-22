@@ -2,7 +2,7 @@ import { getUserId } from "../utils/getUserId";
 import { getToken } from "../utils/getToken"
 
 export const useLikeStatus = () => {
-  const likeStatus = async (id) => {
+  const likeStatus = async (id: string) => {
     const response = await fetch(`/api/status/likeStatus/${id}`, {
       method: "PUT",
       headers: {
