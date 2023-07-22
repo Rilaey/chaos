@@ -8,7 +8,7 @@ const {
   createUser,
   loginUser,
   followUser,
-  // uploadProfilePicture
+  unfollowUser
 } = require("../../controllers/userController");
 
 router.get("/allUsers", getAllUsers);
@@ -21,10 +21,6 @@ router.post("/loginUser", loginUser);
 
 router.put("/followUser/:id", followUser);
 
-// router.put(
-//   "uploadProfilePicture/:id",
-//   upload.single("profilePicture"),
-//   uploadProfilePicture
-// );
+router.put("/unfollowUser/:id", unfollowUser);
 
 module.exports = router;
