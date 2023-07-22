@@ -14,7 +14,9 @@ interface ProfileNavProps {
   following: [];
   profilePicture: string;
   bio: string;
+  isFollowing: boolean;
   fetchFollow: () => void;
+  loseFollow: () => void;
 }
 
 export const ProfileNav = ({
@@ -24,6 +26,8 @@ export const ProfileNav = ({
   following,
   profilePicture,
   bio,
+  isFollowing,
+  loseFollow,
   fetchFollow
 }: ProfileNavProps) => {
   // Media query
@@ -68,17 +72,31 @@ export const ProfileNav = ({
                   alignItems: "center"
                 }}
               >
-                <Button
-                  sx={{
-                    backgroundColor: "#1E1E1E",
-                    color: "lightBlue",
-                    margin: "5px"
-                  }}
-                  variant="contained"
-                  onClick={fetchFollow}
-                >
-                  Follow User
-                </Button>
+                {isFollowing ? (
+                  <Button
+                    sx={{
+                      backgroundColor: "#1E1E1E",
+                      color: "red",
+                      margin: "5px"
+                    }}
+                    variant="contained"
+                    onClick={loseFollow}
+                  >
+                    Unfollow User
+                  </Button>
+                ) : (
+                  <Button
+                    sx={{
+                      backgroundColor: "#1E1E1E",
+                      color: "lightBlue",
+                      margin: "5px"
+                    }}
+                    variant="contained"
+                    onClick={fetchFollow}
+                  >
+                    Follow User
+                  </Button>
+                )}
                 <Typography
                   sx={{
                     margin: "5px"
@@ -102,7 +120,7 @@ export const ProfileNav = ({
                 </Typography>
                 <Typography
                   sx={{
-                    // margin: "3px",
+                    margin: "5px"
                   }}
                 >
                   {bio}
@@ -149,17 +167,31 @@ export const ProfileNav = ({
                   maxWidth: "70%"
                 }}
               />
-              <Button
-                sx={{
-                  backgroundColor: "#1E1E1E",
-                  color: "lightBlue",
-                  margin: "5px"
-                }}
-                variant="contained"
-                onClick={fetchFollow}
-              >
-                Follow User
-              </Button>
+              {isFollowing ? (
+                <Button
+                  sx={{
+                    backgroundColor: "#1E1E1E",
+                    color: "red",
+                    margin: "5px"
+                  }}
+                  variant="contained"
+                  onClick={loseFollow}
+                >
+                  Unfollow User
+                </Button>
+              ) : (
+                <Button
+                  sx={{
+                    backgroundColor: "#1E1E1E",
+                    color: "lightBlue",
+                    margin: "5px"
+                  }}
+                  variant="contained"
+                  onClick={fetchFollow}
+                >
+                  Follow User
+                </Button>
+              )}
               <Typography
                 sx={{
                   margin: "5px"
@@ -181,17 +213,13 @@ export const ProfileNav = ({
               >
                 {following?.length} Following
               </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%"
-              }}
-            >
-              <Typography>{bio}</Typography>
+              <Typography
+                sx={{
+                  margin: "5px"
+                }}
+              >
+                {bio}
+              </Typography>
             </Box>
           </Box>
         </Container>

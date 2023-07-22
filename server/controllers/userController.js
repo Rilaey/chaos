@@ -78,14 +78,26 @@ const loginUser = async (req, res) => {
 // follow user
 const followUser = async (req, res) => {
   try {
-    const userToFollow = await User.findByIdAndUpdate(req.params.id, {
-      $push: { followers: req.body.userId }
-    });
+    // Find the user to follow
+    const userToFollow = await User.findById(req.params.id);
 
     if (!userToFollow) {
       return res.status(404).json(`User to follow does not exist`);
     }
 
+    // Check if the current user is already following the userToFollow
+    const isFollowing = userToFollow.followers.includes(req.body.userId);
+
+    if (isFollowing) {
+      return res.status(400).json(`You are already following this user`);
+    }
+
+    // Update the userToFollow's followers array
+    await User.findByIdAndUpdate(req.params.id, {
+      $push: { followers: req.body.userId }
+    });
+
+    // Update the current user's following array
     const userSetFollowing = await User.findByIdAndUpdate(req.body.userId, {
       $push: { following: req.params.id }
     });
@@ -96,6 +108,7 @@ const followUser = async (req, res) => {
     console.log(err);
   }
 };
+
 
 
 // unfollow user
