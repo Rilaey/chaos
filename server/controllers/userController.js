@@ -82,8 +82,8 @@ const followUser = async (req, res) => {
       $push: { followers: req.body.userId }
     });
 
-    if (userToFollow) {
-      res.status(404).json(`User already followed`);
+    if (!userToFollow) {
+      return res.status(404).json(`User to follow does not exist`);
     }
 
     const userSetFollowing = await User.findByIdAndUpdate(req.body.userId, {
@@ -97,25 +97,24 @@ const followUser = async (req, res) => {
   }
 };
 
-// upload profile picture
-// const uploadProfilePicture = async (req, res) => {
-//   try {
-//     // Update the user's profile picture URL in the database
-//     const user = await User.findByIdAndUpdate(req.params.id, {
-//       profilePicture: req.file.path
-//     })
 
-//     await user.save();
+// unfollow user
+const unfollowUser = async (req, res) => {
+  try {
+    const userToUnfollow = await User.findByIdAndUpdate(req.params.id, {
+      $pull: { followers: req.body.userId}
+    });
 
-//     console.log(user)
+    const localUser = await User.findByIdAndUpdate(req.body.userId, {
+      $pull: {following :  req.params.id},
+    });
 
-//     // Respond with success status and the updated user object
-//     res.status(200).json({ message: 'Profile picture uploaded successfully', user });
-//   } catch (err) {
-//     res.status(500).json(`Error: ${err}`);
-//     console.log(err);
-//   }
-// }
+    res.status(200).json({ userToUnfollow, localUser })
+  } catch (err) {
+    res.status(500).json(`${err}`)
+    console.log(err)
+  }
+}
 
 module.exports = {
   getAllUsers,
@@ -123,5 +122,5 @@ module.exports = {
   createUser,
   loginUser,
   followUser,
-  // uploadProfilePicture
+  unfollowUser
 };
