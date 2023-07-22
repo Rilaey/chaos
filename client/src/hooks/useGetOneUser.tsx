@@ -7,7 +7,6 @@ export const useGetOneUser = () => {
         const response = await fetch(`/api/user/oneUser/${id}`)
 
         const data = await response.json()
-        console.log(data)
 
         setGetOneUser(data)
     }
