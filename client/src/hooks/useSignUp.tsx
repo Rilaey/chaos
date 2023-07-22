@@ -1,16 +1,16 @@
-import { useState } from "react";
+import * as React from "react"
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../utils/getToken"
 
 export const useSignUp = () => {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  const [error, setError] = React.useState<null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { dispatch } = useAuthContext()
 
   const navigate = useNavigate();
 
-  const signUp = async (firstName, lastName, email, password, bio) => {
+  const signUp = async (firstName: string, lastName: string, email: string, password: string, bio: string) => {
     setIsLoading(true);
     setError(null);
 

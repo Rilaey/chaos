@@ -1,11 +1,9 @@
-import { useState } from "react";
-// import { useAuthContext } from "./useAuthContext";
+import * as React from "react";
 
 export const useSingleStatus = () => {
-    const [error, setError] = useState(null)
-    // const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = React.useState(null)
 
-    const getSingleStatus = async (_id) => {
+    const getSingleStatus = async (_id: string) => {
         const response = await fetch(`/api/status/singleStatus/${_id}`, {
             method: "GET",
             headers: {
@@ -15,17 +13,13 @@ export const useSingleStatus = () => {
 
         const data = response.json();
 
-        console.log(data)
-
         if (!response.ok) {
-            setError(data.message);
-            // setIsLoading(false);
+            setError(await data);
             return;
         }
 
         if (response.ok) {
             setError(null);
-            // setIsLoading(false);
             return data;
         }
     }

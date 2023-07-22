@@ -21,12 +21,3 @@ export function getToken(): string | null {
 
     return null;
   }
-
-  // Usage
-//   const token: string | null = extractTokenFromLocalStorage();
-
-//   if (token) {
-//     console.log("Token:", token);
-//   } else {
-//     console.log("Token not found in local storage.");
-//   }

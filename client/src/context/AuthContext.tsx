@@ -1,8 +1,14 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, Dispatch } from "react";
 
-export const AuthContext = createContext(null);
+type AuthState = { user: unknown }; // Replace 'any' with the actual type of 'user'
+type AuthAction = { type: string; payload: unknown }; // Replace 'any' with the actual payload type
 
-export const authReducer = (state: any, action: { type: any; payload: any; }) => {
+export const AuthContext = createContext<{
+  state: AuthState;
+  dispatch: Dispatch<AuthAction>;
+} | null>(null);
+
+export const authReducer = (state: unknown, action: { type: unknown; payload: unknown; }) => {
   switch (action.type) {
     case "LOGIN":
       return { user: action.payload };

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import * as React from "react";
 import { useAuthContext } from "./useAuthContext";
 
 export const useCreateComment = () => {
-  const [error, setError] = useState<null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = React.useState<null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const { dispatch } = useAuthContext();
 
@@ -22,7 +22,7 @@ export const useCreateComment = () => {
     if(response.ok) {
       dispatch({ type: "CREATE_COMMENT", payload: data });
       setIsLoading(false);
-      location.reload()
+      location.reload();
     }
 
     if (!response.ok) {

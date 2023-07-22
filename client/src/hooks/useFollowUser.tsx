@@ -1,10 +1,10 @@
-import { useState } from "react";
+import * as React from "react"
 import { getToken } from "../utils/getToken";
 
 export const useFollowUser = () => {
-  const [followed, setFollowed] = useState(false);
+  const [followed, setFollowed] = React.useState<boolean>(false);
 
-  const followUser = async (id, userId) => {
+  const followUser = async (id: string, userId: () => void) => {
     const response = await fetch(`/api/user/followUser/${id}`, {
       method: "PUT",
       headers: {

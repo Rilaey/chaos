@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import * as React from "react"
 
 export const useGetOneStatus = () => {
-    const [statusInformation, setStatusInformation] = useState([]);
+    const [statusInformation, setStatusInformation] = React.useState([]);
 
-    const getOneStatus = async (id) => {
+    const getOneStatus = async (id: string) => {
         const response = await fetch(`/api/status/singleStatus/${id}`);
 
         const data = await response.json();
