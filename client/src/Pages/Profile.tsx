@@ -15,6 +15,8 @@ const Profile = () => {
   const { followUser, followed } = useFollowUser();
   const { user } = useAuthContext();
 
+  console.log(getUser)
+
   // Params for url
   const { id } = useParams<{ id: string }>();
 
@@ -26,7 +28,7 @@ const Profile = () => {
   };
 
   const fetchUser = useCallback(async () => {
-    await getOneUser(id);
+    return await getOneUser(id);
   }, [getOneUser, id]);
 
   useEffect(() => {

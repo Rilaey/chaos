@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../../middleware/upload");
 
 const {
   getAllUsers,
@@ -7,7 +8,7 @@ const {
   createUser,
   loginUser,
   followUser,
-  uploadProfilePicture
+  // uploadProfilePicture
 } = require("../../controllers/userController");
 
 router.get("/allUsers", getAllUsers);
@@ -20,6 +21,10 @@ router.post("/loginUser", loginUser);
 
 router.put("/followUser/:id", followUser);
 
-// router.post("uploadProfilePicture/:id", uploadProfilePicture)
+// router.put(
+//   "uploadProfilePicture/:id",
+//   upload.single("profilePicture"),
+//   uploadProfilePicture
+// );
 
 module.exports = router;

@@ -50,7 +50,7 @@ export const ProfileNav = ({
             <Box>
               <img
                 src={profilePicture}
-                alt="alt"
+                alt="profile pic"
                 style={{
                   borderRadius: "50%",
                   margin: "20px",
@@ -142,7 +142,7 @@ export const ProfileNav = ({
             >
               <img
                 src={profilePicture}
-                alt="alt"
+                alt="profile pic"
                 style={{
                   borderRadius: "50%",
                   margin: "10px",

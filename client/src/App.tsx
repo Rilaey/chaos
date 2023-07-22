@@ -8,6 +8,7 @@ import Profile from "./Pages/Profile";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { getToken } from "./utils/getToken";
+import { useAuthContext } from "./hooks/useAuthContext"
 
 const darkTheme = createTheme({
   palette: {
@@ -16,6 +17,8 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const { user } = useAuthContext()
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
@@ -24,7 +27,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={getToken() ? <Home /> : <Navigate to="/login" />}
+            element={user ? <Home /> : <Navigate to="/login" />}
           />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />

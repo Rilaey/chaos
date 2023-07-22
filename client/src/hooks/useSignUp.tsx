@@ -34,13 +34,15 @@ export const useSignUp = () => {
     if (response.ok) {
         // save user to local storage
         localStorage.setItem("user", JSON.stringify(data))
+
+        console.log(data)
         // update auth context
         dispatch({ type: "LOGIN", payload: data})
 
         setIsLoading(false)
 
         // redirect to home page
-        navigate("/")
+        navigate(`/profile/${data.user._id}`)
     }
   };
 
