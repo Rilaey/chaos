@@ -19,6 +19,8 @@ const Profile = () => {
   const { userFollowing, fetchFollowingStatus } = useIsFollowing()
   const { unfollowUser, error } = useUnfollow();
 
+console.log(getUser)
+
   // user context
   const { user } = useAuthContext();
 
