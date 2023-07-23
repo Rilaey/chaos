@@ -26,8 +26,7 @@ const userSchema = new Schema(
     },
     profilePicture: {
       type: String,
-      default:
-        "https://img.freepik.com/premium-vector/avatar-profile-icon_188544-4755.jpg?size=626&ext=jpg"
+      default: "http://localhost:8000/uploads/ford.png"
     },
     followers: [
       {

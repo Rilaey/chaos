@@ -33,6 +33,9 @@ export const ProfileNav = ({
   // Media query
   const isSmallScreen = useMediaQuery("(max-width:800px)");
 
+   // Construct the full image URL
+   const profilePictureUrl = `http://localhost:8000/uploads/${profilePicture}`;
+
   return (
     <>
       {isSmallScreen ? (
@@ -159,7 +162,7 @@ export const ProfileNav = ({
               }}
             >
               <img
-                src={profilePicture}
+                src={profilePictureUrl}
                 alt="profile pic"
                 style={{
                   borderRadius: "50%",
