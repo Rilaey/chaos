@@ -1,3 +1,6 @@
+import * as React from "react";
+import { useChangeProfilePicture } from "../../hooks/useChangeProfilePicture";
+import { useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -16,6 +19,7 @@ interface ProfileNavProps {
   bio: string;
   isFollowing: boolean;
   fetchFollow: () => void;
+  newProfilePicture: () => void;
   loseFollow: () => void;
 }
 
@@ -30,11 +34,25 @@ export const ProfileNav = ({
   loseFollow,
   fetchFollow
 }: ProfileNavProps) => {
+  // state
+
+  // Params for url
+  const { id } = useParams<{ id: string }>();
+
   // Media query
   const isSmallScreen = useMediaQuery("(max-width:800px)");
 
-   // Construct the full image URL
-   const profilePictureUrl = `http://localhost:8000/uploads/${profilePicture}`;
+  // profile picture
+  const { selectedFile, uploadStatus, handleFileChange, handleUpload } =
+    useChangeProfilePicture();
+
+  const handleUploadClick = () => {
+    if (selectedFile) {
+      handleUpload(id);
+    } else {
+      alert("Please select a file before uploading.");
+    }
+  };
 
   return (
     <>
@@ -54,17 +72,50 @@ export const ProfileNav = ({
               marginTop: "20px"
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                padding: "5px"
+              }}
+            >
               <img
                 src={profilePicture}
                 alt="profile pic"
                 style={{
                   borderRadius: "50%",
-                  margin: "20px",
-                  height: "20vh"
-                  // maxWidth: "70%"
+                  margin: "10px",
+                  maxWidth: "70%"
                 }}
               />
+              {/* UPLOAD PROFILE PICTURE */}
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  style={{
+                    margin: "5px",
+                    backgroundColor: "#1E1E1E",
+                    color: "lightblue",
+                    border: "2px solid black",
+                    borderRadius: "5px",
+                    padding: "5px",
+                    width: "100%"
+                  }}
+                />
+                <Button
+                  sx={{
+                    backgroundColor: "#1E1E1E",
+                    color: "lightblue",
+                    margin: "5px"
+                  }}
+                  onClick={handleUploadClick}
+                >
+                  Upload Profile Picture
+                </Button>
+                {uploadStatus && <p>{uploadStatus}</p>}
             </Box>
             <Box>
               <Box
@@ -133,6 +184,7 @@ export const ProfileNav = ({
           </Box>
         </Container>
       ) : (
+        ////////////////////////////////////////////////////////////////////////
         <Container>
           <CssBaseline />
           <Box
@@ -162,7 +214,7 @@ export const ProfileNav = ({
               }}
             >
               <img
-                src={profilePictureUrl}
+                src={profilePicture}
                 alt="profile pic"
                 style={{
                   borderRadius: "50%",
@@ -170,6 +222,40 @@ export const ProfileNav = ({
                   maxWidth: "70%"
                 }}
               />
+              {/* UPLOAD PROFILE PICTURE */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  style={{
+                    margin: "5px",
+                    backgroundColor: "#1E1E1E",
+                    color: "lightblue",
+                    border: "2px solid black",
+                    borderRadius: "5px",
+                    padding: "5px",
+                    width: "100%"
+                  }}
+                />
+                <Button
+                  sx={{
+                    backgroundColor: "#1E1E1E",
+                    color: "lightblue",
+                    margin: "5px"
+                  }}
+                  onClick={handleUploadClick}
+                >
+                  Upload Profile Picture
+                </Button>
+                {uploadStatus && <p>{uploadStatus}</p>}
+              </Box>
               {isFollowing ? (
                 <Button
                   sx={{

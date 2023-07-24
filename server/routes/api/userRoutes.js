@@ -26,35 +26,33 @@ router.put("/followUser/:id", followUser);
 router.put("/unfollowUser/:id", unfollowUser);
 
 // profile image route
-router.post(
-  "/profilePicture/:id",
-  upload.single("profilePicture"),
-  async (req, res) => {
-    try {
-      const userId = req.params.id;
+router.post("/profilePicture/:id", upload.single("profilePicture"), async (req, res) => {
+  try {
+    const userId = req.params.id;
 
-      // Validate if the provided ID is a valid ObjectId
-      if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).send("Invalid user ID");
-      }
-
-      // Find the user by ID
-      const user = await User.findById(userId);
-
-      if (!user) {
-        return res.status(404).send("User not found");
-      }
-
-      // Update the profile picture filename in the user document
-      user.profilePicture = req.file.filename;
-      await user.save();
-
-      res.send("Profile picture uploaded successfully!");
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Something went wrong");
+    // Validate if the provided ID is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send("Invalid user ID");
     }
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    // Update the profile picture filename in the user document
+    user.profilePicture = req.file.filename;
+    await user.save();
+
+    res.send("Profile picture uploaded successfully!");
+    // res.status(200).json(req.file)
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(`${err}`);
   }
-);
+});
+
 
 module.exports = router;
