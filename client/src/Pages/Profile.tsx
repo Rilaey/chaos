@@ -5,7 +5,7 @@ import { ProfileNav } from "../Components/ProfileNav/ProfileNav";
 import ProfileStatusCard from "../Components/ProfileStatusCard/ProfileStatusCard";
 import { useGetOneUser } from "../hooks/useGetOneUser";
 import { useFollowUser } from "../hooks/useFollowUser";
-import { useIsFollowing } from "../hooks/useIsFollowing"
+import { useIsFollowing } from "../hooks/useIsFollowing";
 import { useUnfollow } from "../hooks/useUnfollow";
 import { getUserId } from "../utils/getUserId";
 import { Like } from "../models/Like";
@@ -16,10 +16,8 @@ const Profile = () => {
   // Hooks
   const { getOneUser, getUser } = useGetOneUser();
   const { followUser } = useFollowUser();
-  const { userFollowing, fetchFollowingStatus } = useIsFollowing()
-  const { unfollowUser, error } = useUnfollow();
-
-console.log(getUser)
+  const { userFollowing, fetchFollowingStatus } = useIsFollowing();
+  const { unfollowUser, error: unfollowError } = useUnfollow();
 
   // user context
   const { user } = useAuthContext();
@@ -30,9 +28,12 @@ console.log(getUser)
   // Media query
   const isSmallScreen = useMediaQuery("(max-width:800px)");
 
+  // Construct the full image URL
+  const profilePictureUrl = `http://localhost:8000/uploads/${getUser?.profilePicture}`;
+
   const handleUnfollow = async () => {
-    await unfollowUser(id, getUserId())
-  }
+    await unfollowUser(id, getUserId());
+  };
 
   const handleFollow = async () => {
     await followUser(getUser._id, user.user._id);
@@ -68,7 +69,7 @@ console.log(getUser)
               fetchFollow={handleFollow}
               followers={getUser?.followers}
               following={getUser?.following}
-              profilePicture={getUser?.profilePicture}
+              profilePicture={profilePictureUrl}
               bio={getUser?.bio}
               isFollowing={userFollowing}
               loseFollow={handleUnfollow}
@@ -105,6 +106,7 @@ console.log(getUser)
           </Box>
         </Box>
       ) : (
+        //////////////////////////////////////////////////////////////
         <Box
           sx={{
             display: "flex",
@@ -123,10 +125,12 @@ console.log(getUser)
               fetchFollow={handleFollow}
               followers={getUser?.followers}
               following={getUser?.following}
-              profilePicture={getUser?.profilePicture}
+              profilePicture={profilePictureUrl}
               bio={getUser?.bio}
               isFollowing={userFollowing}
               loseFollow={handleUnfollow}
+              // newProfilePicture={handleProfilePicture}
+              // inputProfilePic={profileImage}
             />
           </Box>
           <Box
